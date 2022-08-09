@@ -5,9 +5,9 @@
   "scripts": {
     "build:production": "npx tsc",
     "build:watch": "npx tsc --watch",
-    "start:production": "node ./dist/server.js",
     "start:watch": "nodemon ./dist/server.js",
-    "serve": "npm-run-all --parallel start:watch build:watch "
+    "serve:production": "node ./dist/server.js",
+    "serve:development": "npm-run-all --parallel start:watch build:watch"
     
   },
   "keywords": [],
