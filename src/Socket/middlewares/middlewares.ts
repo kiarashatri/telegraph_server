@@ -1,12 +1,16 @@
-import { Server } from "socket.io";
+import { Socket } from "socket.io";
 
 import authentication from "./authentication";
 import onlineClients from "./onlineClients";
 
-export default function middlewares(io: Server) {
+export default function middlewares(socket: Socket, redisCache: any) {
   const middlewares: any[] = [authentication, onlineClients];
 
-  middlewares.forEach((callBackFunc) => {
-    io.use(callBackFunc);
+  middlewares.every((callBackFunc) => {
+    let next = callBackFunc(socket, redisCache);
+    if (!next) {
+      socket.disconnect();
+    }
+    return next;
   });
 }

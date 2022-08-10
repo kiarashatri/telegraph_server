@@ -1,0 +1,24 @@
+jwtObject (signed to: socket.data.user) = {
+  user_id: string,
+}
+
+Verify variable in middleware (authentication.ts ) = socket.data.verify: boolean
+
+
+Document DB Structure:
+
+  users [
+    {id: unique_id, name: string, family: string, username: string, email: string, phone: number, last_seen: time, register_time: time, email_confirmation: time, friends: [{id: user_id, time_add: time}], block: [{id: user_id, time_block: time}],setting: {} }
+  ]
+
+  messages [
+    {id: unique_id, from: user_id, to: user_id, reply_to: message_id|Null, context: {type: string, image?: img, text?: string}, time_sent: time, time_deliver: time|Null }
+  ]
+
+  tweets [
+    {id: unique_id, owner: number, like: [user_id], comments: [{id: unique_id, owner: user_id, context: string, reply_to: tweet_comment_id|Null, time_sent: time}], context: string, time_sent: time }
+  ]
+
+  storys [
+    {id: unique_id, owner: id, image: link, add_time: time }
+  ]

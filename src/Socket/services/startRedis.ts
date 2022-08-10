@@ -1,7 +1,7 @@
 import * as redis from "redis";
 
-export default async function startRedis() {
+export default function startRedis() {
   const redisCache = redis.createClient();
-  await redisCache.connect();
+  redisCache.connect();
   return redisCache;
 }
