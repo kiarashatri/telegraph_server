@@ -1,30 +1,24 @@
-// const express = require("express");
-// const app = express();
-// const http = require("http");
-// const { Server } = require("socket.io");
-// const cors = require("cors");
+import { Server } from "socket.io";
 
-// app.use(cors());
+// Socket.io Middleware's
+import middlewares from "./Socket/middlewares/middlewares";
 
-// const server = http.createServer(app);
+// Emmit's
+import testEmit from "./Socket/emits/testEmit";
 
-// const io = new Server(server, {
-//   cors: {
-//     origin: "http://localhost:3000",
-//     methods: ["GET", "POST"],
-//   },
-// });
+// Listener's
+import testListener from "./Socket/listeners/testListener";
 
-// io.on("connection", (socket) => {
-//   console.log("a user connected", socket.id);
+export default function Sockets(io: Server): void {
+  middlewares(io);
 
-//   socket.on("from-client", (socket) => {
-//     console.log("sended arg");
-//   });
+  io.on("connection", (socket) => {
+    testListener(socket);
+    testEmit(socket);
+    console.log("connected: ", socket.id);
 
-//   socket.emit("server", " msg from server");
-// });
-
-// server.listen(5000, () => {
-//   console.log("listening on *:5000");
-// });
+    socket.on("disconnect", () => {
+      console.log("disconnect: ", socket.id);
+    });
+  });
+}

@@ -3,6 +3,7 @@ import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
 import Routes from "./routes";
+import Sockets from "./socket";
 
 const app: Express = express();
 const server = http.createServer(app);
@@ -17,6 +18,7 @@ app.use(express.json());
 app.use(cors());
 
 Routes(app);
+Sockets(io);
 
 app.listen(4000);
 server.listen(5000, () => {
