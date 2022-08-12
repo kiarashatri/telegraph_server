@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import Users from "./Database/Models/users";
+import Users from "./Database/Models/user";
 
 // Socket.io Middleware's
 import middlewares from "./Socket/middlewares/middlewares";

@@ -18,7 +18,7 @@ interface iTweet {
 }
 
 // Create Schema
-const usersSchema = new Schema<iTweet>({
+const tweetSchema = new Schema<iTweet>({
   owner: { type: String, required: true },
   like: [{ type: Types.ObjectId }],
   comments: [
@@ -34,6 +34,6 @@ const usersSchema = new Schema<iTweet>({
   time_sent: { type: Date, default: Date.now, required: true },
 });
 
-const Users = model("users", usersSchema);
+const Tweet = model("tweet", tweetSchema);
 
-export default Users;
+export default Tweet;

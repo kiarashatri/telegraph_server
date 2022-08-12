@@ -30,6 +30,6 @@ const usersSchema = new Schema<iUser>({
   setting: { type: Object, required: false },
 });
 
-const Users = model("users", usersSchema);
+const Users = model("user", usersSchema);
 
 export default Users;
