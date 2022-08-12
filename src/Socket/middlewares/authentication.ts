@@ -7,7 +7,6 @@ export default function authentication(
   socket: Socket,
   redisCache: any
 ): boolean {
-  console.log("1nd middleware run");
   try {
     socket.data.user = verify(
       socket.handshake.auth.accessToken,

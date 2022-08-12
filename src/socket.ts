@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+import Users from "./Database/Models/users";
 
 // Socket.io Middleware's
 import middlewares from "./Socket/middlewares/middlewares";
@@ -13,16 +14,18 @@ import testListener from "./Socket/listeners/testListener";
 import startRedis from "./Socket/services/startRedis";
 import setClientOfflineInRedis from "./Socket/services/setClientOfflineInRedis";
 import allUnreadMsgFromServer from "./Socket/emits/allUnreadMsgFromServer";
+import DBconnection from "./Database/connection";
 
 export default function Sockets(io: Server): void {
   // Instantiate redis on Server Fire-up
   const redisCache = startRedis();
 
-  io.on("connection", (socket) => {
+  // Connect to MongoDB
+  DBconnection();
+
+  io.on("connection", async (socket) => {
     // Bind Middleware's to webSocket
     middlewares(socket, redisCache);
-
-    console.log(socket.connected);
 
     // Fire-up Emit's
     allUnreadMsgFromServer(socket);

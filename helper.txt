@@ -8,7 +8,18 @@ Verify variable in middleware (authentication.ts ) = socket.data.verify: boolean
 Document DB Structure:
 
   users [
-    {id: unique_id, name: string, family: string, username: string, email: string, phone: number, last_seen: time, register_time: time, email_confirmation: time, friends: [{id: user_id, time_add: time}], block: [{id: user_id, time_block: time}],setting: {} }
+    {id: unique_id,
+     name: string,
+     family: string,
+     username: string,
+     email: string,
+     phone: number,
+     last_seen: time,
+     register_time: time,
+     email_confirmation: time,
+     friends: [{id: user_id, time_add: time}],
+     block: [{id: user_id, time_block: time}], 
+     setting: {} }
   ]
 
   messages [

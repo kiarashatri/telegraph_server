@@ -2,7 +2,6 @@ import { Socket } from "socket.io";
 
 export default function onlineClients(socket: Socket, redisCache: any) {
   // return false;
-  console.log("2nd middleware run");
   try {
     const userId = socket.data.user.user_id || "_failed_list";
     redisCache.SADD(userId, socket.id);
