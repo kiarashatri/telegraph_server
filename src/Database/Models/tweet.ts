@@ -2,14 +2,14 @@ import { model, Schema, Types } from "mongoose";
 
 // Create an interface of document
 interface iTweet {
-  owner: string;
+  owner: String;
   like: [Types.ObjectId];
   comments: [
     {
-      id: Types.ObjectId;
-      owner: Types.ObjectId;
+      id: String;
+      owner: String;
       context: string;
-      reply_to: Types.ObjectId;
+      reply_to: String;
       time_sent: Date;
     }
   ];
@@ -19,12 +19,12 @@ interface iTweet {
 
 // Create Schema
 const tweetSchema = new Schema<iTweet>({
-  owner: { type: String, required: true },
-  like: [{ type: Types.ObjectId }],
+  owner: { type: Types.ObjectId, required: true, ref: "users" },
+  like: [{ type: Types.ObjectId, ref: "users" }],
   comments: [
     {
       id: { type: Types.ObjectId, required: true },
-      owner: { type: Types.ObjectId, required: true },
+      owner: { type: Types.ObjectId, required: true, ref: "users" },
       context: { type: String, required: true },
       reply_to: { type: Types.ObjectId, required: false },
       time_sent: { type: Date, required: true },

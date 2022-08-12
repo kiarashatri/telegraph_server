@@ -23,7 +23,7 @@ Document DB Structure:
   ]
 
   messages [
-    {id: unique_id, from: user_id, to: user_id, reply_to: message_id|Null, context: {type: string, image?: img, text?: string}, time_sent: time, time_deliver: time|Null }
+    {id: unique_id, from: user_id, to: user_id, reply_to: message_id|Null, context: { image?: img, text?: string}, time_sent: time, time_deliver: time|Null }
   ]
 
   tweets [

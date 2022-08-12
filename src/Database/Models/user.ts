@@ -25,8 +25,8 @@ const usersSchema = new Schema<iUser>({
   last_seen: { type: Date, default: Date.now, required: true },
   register_time: { type: Date, default: Date.now, required: true },
   email_confirmation: { type: Date, default: null, required: true },
-  friends: [{ id: Types.ObjectId, time_add: Date }],
-  block: [{ id: Types.ObjectId, time_block: Date }],
+  friends: [{ id: Types.ObjectId, time_add: Date, ref: "users" }],
+  block: [{ id: Types.ObjectId, time_block: Date, ref: "users" }],
   setting: { type: Object, required: false },
 });
 
