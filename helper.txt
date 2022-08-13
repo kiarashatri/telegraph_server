@@ -46,6 +46,8 @@ Document DB Structure:
       { from: "id_from_id", to: "id_to_id", reply_to: "id_msg_id", context: { image: "img", text: "string txt"}, sent_at: null|Date, seen_at: null|Date }
 
 
+      db.messages.find({ from: "sender_id", to: "reciver_id", reply_to: "reply_to_id", context: { image: "img", text: "string33 txt33"}, sent_at: null })
+
 
 ----------------------------------------------------------------------------------------------
 
