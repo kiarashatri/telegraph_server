@@ -16,4 +16,6 @@ export default async function allUnreadMsgFromServer(
       error
     );
   }
+
+  socket.to(socket.data.user.user_id).emit("allUnreadMsgFromServer", data);
 }

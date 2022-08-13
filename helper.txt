@@ -2,8 +2,16 @@ jwtObject (signed to: socket.data.user) = {
   user_id: string,
 }
 
-Verify variable in middleware (authentication.ts ) = socket.data.verify: boolean
+----------------------------------------------------------------------------------------------
 
+ Middleware's : (middlewares.ts ) =>
+
+  - 1.1 return `true` To continue connection
+  - 1.2 return `false` To reject and disconnect client from server
+  - 2.1 import function in middlewares.ts and add into middlewares array
+
+
+----------------------------------------------------------------------------------------------
 
 Document DB Structure:
 
@@ -38,5 +46,11 @@ Document DB Structure:
       { from: "id_from_id", to: "id_to_id", reply_to: "id_msg_id", context: { image: "img", text: "string txt"}, sent_at: null, time_deliver: null }
 
 
-    id: 62f77cecb1b2d0ff05c01b2b
-      db.messages.insertOne({ from: "id_from_id", to: "62f77b25b1b2d0ff05c01a2b", reply_to: "id_msg_id", context: { image: "img", text: "string txt"}, sent_at: null, time_deliver: null })
+
+----------------------------------------------------------------------------------------------
+
+
+Emit's :
+
+  - Private:
+    - allUnreadMsgFromServer : join to user_id => get in once after connection from the client
