@@ -43,7 +43,7 @@ Document DB Structure:
   ]
 
 
-      { from: "id_from_id", to: "id_to_id", reply_to: "id_msg_id", context: { image: "img", text: "string txt"}, sent_at: null, time_deliver: null }
+      { from: "id_from_id", to: "id_to_id", reply_to: "id_msg_id", context: { image: "img", text: "string txt"}, sent_at: null|Date, seen_at: null|Date }
 
 
 
@@ -52,5 +52,14 @@ Document DB Structure:
 
 Emit's :
 
-  - Private:
-    - allUnreadMsgFromServer : join to user_id => get in once after connection from the client
+  Server-Side:
+    - Private:
+      - allUnreadMsgFromServer : join to user_id => get in once after connection from the client
+
+  Client-side:
+    newMessageFromClient: arg => {
+      to: user_id,
+      reply_to?: message_id,
+      context: { image: "img", text: "string"}
+    }
+  
