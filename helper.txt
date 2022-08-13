@@ -23,7 +23,7 @@ Document DB Structure:
   ]
 
   messages [
-    {id: unique_id, from: user_id, to: user_id, reply_to: message_id|Null, context: { image?: img, text?: string}, time_sent: time, time_deliver: time|Null }
+    {id: unique_id, from: user_id, to: user_id, reply_to: message_id|Null, context: { image?: img, text?: string}, sent_at: time, time_deliver: time|Null }
   ]
 
   tweets [
@@ -33,3 +33,10 @@ Document DB Structure:
   storys [
     {id: unique_id, owner: id, image: link, add_time: time }
   ]
+
+
+      { from: "id_from_id", to: "id_to_id", reply_to: "id_msg_id", context: { image: "img", text: "string txt"}, sent_at: null, time_deliver: null }
+
+
+    id: 62f77cecb1b2d0ff05c01b2b
+      db.messages.insertOne({ from: "id_from_id", to: "62f77b25b1b2d0ff05c01a2b", reply_to: "id_msg_id", context: { image: "img", text: "string txt"}, sent_at: null, time_deliver: null })

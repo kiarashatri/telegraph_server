@@ -1,17 +1,10 @@
 import { model, Schema, Types } from "mongoose";
 
-// Create an interface of document
-interface iStory {
-  owner: String;
-  image: String;
-  add_time: Date;
-}
-
 // Create Schema
-const storySchema = new Schema<iStory>({
-  owner: { type: Types.ObjectId, required: true, ref: "users" },
+const storySchema = new Schema<{}>({
+  owner: { type: String, required: true },
   image: { type: String, required: true },
-  add_time: { type: Date, required: true },
+  added_at: { type: Date, required: true },
 });
 
 const story = model("story", storySchema);

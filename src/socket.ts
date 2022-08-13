@@ -1,11 +1,10 @@
 import { Server } from "socket.io";
-import Users from "./Database/Models/user";
 
 // Socket.io Middleware's
 import middlewares from "./Socket/middlewares/middlewares";
 
 // Emmit's
-import testEmit from "./Socket/emits/testEmit";
+import allUnreadMsgFromServer from "./Socket/emits/allUnreadMsgFromServer";
 
 // Listener's
 import testListener from "./Socket/listeners/testListener";
@@ -13,7 +12,6 @@ import testListener from "./Socket/listeners/testListener";
 // Service's
 import startRedis from "./Socket/services/startRedis";
 import setClientOfflineInRedis from "./Socket/services/setClientOfflineInRedis";
-import allUnreadMsgFromServer from "./Socket/emits/allUnreadMsgFromServer";
 import DBconnection from "./Database/connection";
 
 export default function Sockets(io: Server): void {
@@ -23,12 +21,12 @@ export default function Sockets(io: Server): void {
   // Connect to MongoDB
   DBconnection();
 
-  io.on("connection", async (socket) => {
+  io.on("connection", async (socket): Promise<void> => {
     // Bind Middleware's to webSocket
     middlewares(socket, redisCache);
 
     // Fire-up Emit's
-    allUnreadMsgFromServer(socket);
+    allUnreadMsgFromServer(socket, redisCache);
 
     // Fire-up listener's
     testListener(socket);

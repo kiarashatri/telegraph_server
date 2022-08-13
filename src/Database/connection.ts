@@ -2,8 +2,6 @@ import mongoose from "mongoose";
 
 export default async function DBconnection() {
   try {
-    console.log("Try Lope: ");
-
     mongoose.connect("mongodb://localhost:27017/telegraph");
 
     const kittySchema = new mongoose.Schema({

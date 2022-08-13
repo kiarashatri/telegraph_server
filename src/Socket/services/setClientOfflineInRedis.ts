@@ -4,5 +4,5 @@ export default function setClientOfflineInRedis(
   socket: Socket,
   redisCache: any
 ) {
-  redisCache.SREM(socket.data.user.user_id, socket.id);
+  redisCache.del(socket.data.user.user_id);
 }
