@@ -17,6 +17,6 @@ const tweetSchema = new Schema<{}>({
   sent_at: { type: Date, default: Date.now, required: true },
 });
 
-const Tweet = model("tweet", tweetSchema);
+const tweet = model("tweet", tweetSchema);
 
-export default Tweet;
+export default tweet;

@@ -14,6 +14,7 @@ import startRedis from "./Socket/services/startRedis";
 import setClientOfflineInRedis from "./Socket/services/setClientOfflineInRedis";
 import DBconnection from "./Database/connection";
 import newMessageFromClient from "./Socket/listeners/newMessageFromClient";
+import sendUserProfile from "./Socket/emits/sendUserProfile";
 
 export default function Sockets(io: Server): void {
   // Instantiate redis on Server Fire-up
@@ -25,7 +26,8 @@ export default function Sockets(io: Server): void {
   io.on("connection", async (socket): Promise<void> => {
     // Bind Middleware's to webSocket
     middlewares(socket, redisCache);
-    socket.join("kiarash");
+
+    sendUserProfile(socket, "62f8f65f30f56571f78039ab");
 
     // Fire-up Emit's
     allUnreadMsgFromServer(socket, redisCache);

@@ -17,6 +17,6 @@ const usersSchema = new Schema<{}>({
   setting: { type: Object, required: false },
 });
 
-const Users = model("user", usersSchema);
+const user = model("user", usersSchema);
 
-export default Users;
+export default user;

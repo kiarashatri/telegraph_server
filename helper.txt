@@ -43,12 +43,6 @@ Document DB Structure:
   ]
 
 
-      { from: "id_from_id", to: "id_to_id", reply_to: "id_msg_id", context: { image: "img", text: "string txt"}, sent_at: null|Date, seen_at: null|Date }
-
-
-      db.messages.find({ from: "sender_id", to: "reciver_id", reply_to: "reply_to_id", context: { image: "img", text: "string33 txt33"}, sent_at: null })
-
-
 ----------------------------------------------------------------------------------------------
 
 
@@ -58,7 +52,7 @@ Emit's :
     - Private:
       - allUnreadMsgFromServer: join to user_id => get in once after connection from the client
       - singleUnreadMsgFromServer: Send Just to user_id => single message when sender , send message
-      - sendUserProfile: send name,family, username, user_id, photo, biography
+      - sendUserProfile: (emit name: sendUserProfileFromServer) => send name,family, username, user_id, photo, biography
 
   Client-side:
     newMessageFromClient: arg => {
