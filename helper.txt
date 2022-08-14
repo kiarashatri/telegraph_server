@@ -56,8 +56,9 @@ Emit's :
 
   Server-Side:
     - Private:
-      - allUnreadMsgFromServer : join to user_id => get in once after connection from the client
-      - singleUnreadMsgFromServer : Send Just to user_id => single message when sender , send message
+      - allUnreadMsgFromServer: join to user_id => get in once after connection from the client
+      - singleUnreadMsgFromServer: Send Just to user_id => single message when sender , send message
+      - sendUserProfile: send name,family, username, user_id, photo, biography
 
   Client-side:
     newMessageFromClient: arg => {
