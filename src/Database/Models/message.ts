@@ -10,7 +10,7 @@ const messageSchema = new Schema<{}>({
     text: { type: String, required: false },
   },
   sent_at: { type: Date, default: Date.now, required: true },
-  seen_at: { type: Date, default: null, required: true },
+  seen_at: { type: Date, default: null, required: false },
 });
 
 const message = model("message", messageSchema);

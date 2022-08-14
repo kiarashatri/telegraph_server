@@ -1,25 +1,37 @@
+import { ObjectId } from "mongoose";
 import { Socket } from "socket.io";
-import message from "../../Database/Models/message";
+import sendMessageToUser from "../emits/sendMessageToUser";
 import saveMessageToDb from "../services/saveMessageToDb";
 
-export default function newMessageFromClient(socket: Socket): void {
-  socket.on("newMessageFromClient", async (arg) => {
-    console.log("saveMessageToDb:  ");
+interface dbData {
+  to: String;
+  from?: String;
+  reply_to: String;
+  context: {
+    image: String;
+    text: String;
+  };
+  sent_at?: Date;
+  seen_at?: Date | null;
+  _id: String;
+  __v: number;
+}
+
+export default function newMessageFromClient(
+  socket: Socket,
+  redisCache: any
+): void {
+  socket.on("newMessageFromClient", async (arg: dbData) => {
     arg.from = socket.data.user.user_id;
     arg.sent_at = new Date();
 
-    const data = new message({
-      from: "sender_id",
-      to: "reciver_id",
-      reply_to: "reply_to_id",
-      context: { image: "img", text: "string33 txt33" },
-      sent_at: null,
-    });
+    try {
+      // Type should fix to dbData:
+      const data: any = await saveMessageToDb(arg);
+      delete data.seen_at;
 
-    await data.save();
-    console.log(data);
-
-    // saveMessageToDb(arg);
-    // console.log(saveMessageToDb(arg));
+      // send message to user if the user in online
+      sendMessageToUser(socket, data, redisCache);
+    } catch (error) {}
   });
 }
