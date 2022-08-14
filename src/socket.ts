@@ -31,7 +31,7 @@ export default function Sockets(io: Server): void {
     allUnreadMsgFromServer(socket, redisCache);
 
     // Fire-up listener's
-    newMessageFromClient(socket);
+    newMessageFromClient(socket, redisCache);
 
     // User leave socket Listener
     socket.on("disconnect", () => {

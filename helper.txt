@@ -57,6 +57,7 @@ Emit's :
   Server-Side:
     - Private:
       - allUnreadMsgFromServer : join to user_id => get in once after connection from the client
+      - singleUnreadMsgFromServer : Send Just to user_id => single message when sender , send message
 
   Client-side:
     newMessageFromClient: arg => {
