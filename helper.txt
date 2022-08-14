@@ -52,7 +52,8 @@ Emit's :
     - Private:
       - allUnreadMsgFromServer: join to user_id => get in once after connection from the client
       - singleUnreadMsgFromServer: Send Just to user_id => single message when sender , send message
-      - sendUserProfile: (emit name: sendUserProfileFromServer) => send name,family, username, user_id, photo, biography
+      - sendUserProfile: (emit name: sendUserProfileFromServer) => send name,family, username, user_id, photo, biography, last_seen
+      - sendLastSeenFromServer: array of users last_seen status => [{userId: id, lastSeen:Date}]
 
   Client-side:
     newMessageFromClient: arg => {
@@ -63,4 +64,5 @@ Emit's :
     receiveUserProfile: arg: (userId of user we want) {
       based of server-side sendUserProfile emit: returns => name,family, username, user_id, photo, biography
     }
+    requestLastSeen: (arg: array of userId) => emit a list of users that we want their last seen
   
