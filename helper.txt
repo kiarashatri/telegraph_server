@@ -60,4 +60,7 @@ Emit's :
       reply_to?: message_id,
       context: { image: "img", text: "string"}
     }
+    receiveUserProfile: arg: (userId of user we want) {
+      based of server-side sendUserProfile emit: returns => name,family, username, user_id, photo, biography
+    }
   
