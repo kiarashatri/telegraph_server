@@ -1,20 +1,19 @@
 import { Server } from "socket.io";
 
 // Socket.io Middleware's
-import middlewares from "./Socket/middlewares/middlewares";
+import middlewares from "./middlewares/middlewares";
 
 // Emmit's
-import allUnreadMsgFromServer from "./Socket/emits/allUnreadMsgFromServer";
+import allUnreadMsgFromServer from "./emits/allUnreadMsgFromServer";
 
 // Listener's
-import testListener from "./Socket/listeners/testListener";
+import newMessageFromClient from "./listeners/newMessageFromClient";
+import addNewStory from "./listeners/addNewStory";
 
 // Service's
-import startRedis from "./Socket/services/startRedis";
-import setClientOfflineInRedis from "./Socket/services/setClientOfflineInRedis";
-import DBconnection from "./Database/connection";
-import newMessageFromClient from "./Socket/listeners/newMessageFromClient";
-import sendUserProfile from "./Socket/emits/sendUserProfile";
+import startRedis from "./services/startRedis";
+import setClientOfflineInRedis from "./services/setClientOfflineInRedis";
+import DBconnection from "../Database/connection";
 
 export default function Sockets(io: Server): void {
   // Instantiate redis on Server Fire-up
@@ -27,13 +26,12 @@ export default function Sockets(io: Server): void {
     // Bind Middleware's to webSocket
     middlewares(socket, redisCache);
 
-    sendUserProfile(socket, "62f8f65f30f56571f78039ab");
-
     // Fire-up Emit's
     allUnreadMsgFromServer(socket, redisCache);
 
     // Fire-up listener's
     newMessageFromClient(socket, redisCache);
+    addNewStory(socket);
 
     // User leave socket Listener
     socket.on("disconnect", () => {
