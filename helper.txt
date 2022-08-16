@@ -13,38 +13,6 @@ jwtObject (signed to: socket.data.user) = {
 
 ----------------------------------------------------------------------------------------------
 
-Document DB Structure:
-
-  users [
-    {id: unique_id,
-     name: string,
-     family: string,
-     username: string,
-     email: string,
-     phone: number,
-     last_seen: time,
-     register_time: time,
-     email_confirmation: time,
-     friends: [{id: user_id, time_add: time}],
-     block: [{id: user_id, time_block: time}], 
-     setting: {} }
-  ]
-
-  messages [
-    {id: unique_id, from: user_id, to: user_id, reply_to: message_id|Null, context: { image?: img, text?: string}, sent_at: time, time_deliver: time|Null }
-  ]
-
-  tweets [
-    {id: unique_id, owner: number, like: [user_id], comments: [{id: unique_id, owner: user_id, context: string, reply_to: tweet_comment_id|Null, time_sent: time}], context: string, time_sent: time }
-  ]
-
-  storys [
-    {id: unique_id, owner: id, image: link, add_time: time }
-  ]
-
-
-----------------------------------------------------------------------------------------------
-
 
 Emit's :
 
@@ -54,6 +22,7 @@ Emit's :
       - singleUnreadMsgFromServer: Send Just to user_id => single message when sender , send message
       - sendUserProfile: (emit name: sendUserProfileFromServer) => send name,family, username, user_id, photo, biography, last_seen
       - sendLastSeenFromServer: array of users last_seen status => [{userId: id, lastSeen:Date}]
+      - sendAllFollowingStorysInfoFromServer run fist at start conn to user
 
   Client-side:
     newMessageFromClient: arg => {
@@ -66,3 +35,47 @@ Emit's :
     }
     requestLastSeen: (arg: array of userId) => emit a list of users that we want their last seen
   
+
+
+  ----------------------------------------------------------------------------------------------
+  
+
+  db.users.insertOne({
+    name: 'kia',
+    family: 'atri',
+    username: 'kiarashatri',
+    email: 'kia@gmail.cm',
+    phone: 91188301030,
+    last_seen: null,
+    register_time: null,
+    email_confirmation: null,
+    following: [ { id: 1, time_add: null },{ id: 2, time_add: null },{ id: 3, time_add: null } ],
+    block: [ { id: 456, time_block: null } ],
+    setting: null
+  });
+
+
+
+    const aa = new user({
+    // _id: socket.data.user.ObjectId,
+    name: "kia",
+    family: "atri",
+    hashPassword: "34829340237gjfghfgf",
+    username: "kiarashatri",
+    email: "kia@gmail.cm",
+    photo: 'base64Photohere',
+    biography: 'my biography here',
+    phone: 91188301030,
+    last_seen: new Date(),
+    register_time: new Date(),
+    email_confirmation: new Date(),
+    following: [
+      { id: new Types.ObjectId(), time_add: new Date() },
+      { id: new Types.ObjectId(), time_add: new Date() },
+      { id: new Types.ObjectId(), time_add: new Date() },
+    ],
+    block: [{ id: new Types.ObjectId(), time_block: new Date() }],
+    setting: {},
+  });
+
+  await aa.save();

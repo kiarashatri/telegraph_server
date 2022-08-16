@@ -5,7 +5,7 @@ export default async function sendUserProfile(socket: Socket, userId: String) {
   let data: any;
   try {
     data = await User.findById(userId).select(
-      "name family username _id photo biography last_seen"
+      "_id name family username photo biography last_seen"
     );
   } catch (error) {
     console.log(

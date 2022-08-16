@@ -2,9 +2,9 @@ import { model, Schema, Types } from "mongoose";
 
 // Create Schema
 const messageSchema = new Schema<{}>({
-  from: { type: String, required: true },
-  to: { type: String, required: true },
-  reply_to: { type: String, required: true },
+  from: { type: Types.ObjectId, required: true },
+  to: { type: Types.ObjectId, required: true },
+  reply_to: { type: Types.ObjectId, required: true },
   context: {
     image: { type: String, required: false },
     text: { type: String, required: false },

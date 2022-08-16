@@ -14,6 +14,7 @@ import addNewStory from "./listeners/addNewStory";
 import startRedis from "./services/startRedis";
 import setClientOfflineInRedis from "./services/setClientOfflineInRedis";
 import DBconnection from "../Database/connection";
+import sendAllFollowingStorysInfoFromServer from "./emits/sendAllFollowingStorysInfoFromServer";
 
 export default function Sockets(io: Server): void {
   // Instantiate redis on Server Fire-up
@@ -28,6 +29,7 @@ export default function Sockets(io: Server): void {
 
     // Fire-up Emit's
     allUnreadMsgFromServer(socket, redisCache);
+    sendAllFollowingStorysInfoFromServer(socket);
 
     // Fire-up listener's
     newMessageFromClient(socket, redisCache);

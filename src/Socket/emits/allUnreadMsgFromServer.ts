@@ -1,4 +1,5 @@
 import { Socket } from "socket.io";
+import { Types } from "mongoose";
 import message from "../../Database/Models/message";
 
 export default async function allUnreadMsgFromServer(
@@ -8,7 +9,10 @@ export default async function allUnreadMsgFromServer(
   let data: Object = {};
   try {
     data = await message
-      .find({ to: socket.data.user.user_id, seen_at: { $eq: null } })
+      .find({
+        to: socket.data.user.ObjectId,
+        seen_at: { $eq: null },
+      })
       .select("from reply_to context sent_at");
   } catch (error) {
     console.log(
