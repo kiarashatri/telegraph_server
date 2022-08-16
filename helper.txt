@@ -23,6 +23,7 @@ Emit's :
       - sendUserProfile: (emit name: sendUserProfileFromServer) => send name,family, username, user_id, photo, biography, last_seen
       - sendLastSeenFromServer: array of users last_seen status => [{userId: id, lastSeen:Date}]
       - sendAllFollowingStorysInfoFromServer run fist at start conn to user
+      - sendStoryPhotoFromServer:gets( {ownerId, ObjectId} ) :  return { status: bool,id: storyModelRequest._id, image: storyModelRequest.image};
 
   Client-side:
     newMessageFromClient: arg => {
@@ -38,7 +39,7 @@ Emit's :
 
 
   ----------------------------------------------------------------------------------------------
-  
+
 
   db.users.insertOne({
     name: 'kia',
