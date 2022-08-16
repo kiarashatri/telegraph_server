@@ -20,7 +20,9 @@ app.use(cors());
 Routes(app);
 Sockets(io);
 
-app.listen(4000);
+app.listen(4000, () => {
+  console.log("Express listening on *:4000");
+});
 server.listen(5000, () => {
-  console.log("listening on *:5000");
+  console.log("Socket.io listening on *:5000");
 });

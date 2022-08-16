@@ -61,7 +61,7 @@ Emit's :
     // _id: socket.data.user.ObjectId,
     name: "kia",
     family: "atri",
-    hashPassword: "34829340237gjfghfgf",
+    hashPassword: "5joRzUcZu3OkKsFCjV5ydNgxYAWl+YbCeSL8uFJ2nC8=",
     username: "kiarashatri",
     email: "kia@gmail.cm",
     photo: 'base64Photohere',

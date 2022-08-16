@@ -30,7 +30,7 @@ export default function Sockets(io: Server): void {
 
     // Fire-up Emit's
     allUnreadMsgFromServer(socket, redisCache);
-    sendAllFollowingStorysInfoFromServer(socket);
+    // sendAllFollowingStorysInfoFromServer(socket);
 
     // Fire-up listener's
     newMessageFromClient(socket, redisCache);
