@@ -1,20 +1,18 @@
 import { Express, Request, Response } from "express";
 
-export default function Routes(app: Express) {
-  app.post("/login", (req: Request, res: Response) => {
-    res.send(
-      JSON.stringify({
-        authenticated: "ok",
-        access_token: "123234cdc",
-      })
-    );
-  });
+// import Controllers
+import confirmEmail from "./Controllers/confirmEmail";
+import login from "./Controllers/login";
+import register from "./Controllers/register";
+import verifyToken from "./Controllers/verifyToken";
 
-  app.post("/verify_token", (req: Request, res: Response) => {
-    res.send(
-      JSON.stringify({
-        verify: true,
-      })
-    );
-  });
+export default function Routes(app: Express) {
+  app.post("/login", (req: Request, res: Response) => login(req, res));
+  app.post("/register", (req: Request, res: Response) => register(req, res));
+  app.post("/verify_token", (req: Request, res: Response) =>
+    verifyToken(req, res)
+  );
+  app.post("/confirm_email", (req: Request, res: Response) =>
+    confirmEmail(req, res)
+  );
 }
