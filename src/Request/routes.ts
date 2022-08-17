@@ -2,6 +2,7 @@ import { Express, Request, Response } from "express";
 
 // import Controllers
 import confirmEmail from "./Controllers/confirmEmail";
+import forgetPassword from "./Controllers/forgetPassword";
 import login from "./Controllers/login";
 import register from "./Controllers/register";
 import verifyToken from "./Controllers/verifyToken";
@@ -14,5 +15,8 @@ export default function Routes(app: Express) {
   );
   app.post("/confirm_email", (req: Request, res: Response) =>
     confirmEmail(req, res)
+  );
+  app.post("/forget_password", (req: Request, res: Response) =>
+    forgetPassword(req, res)
   );
 }

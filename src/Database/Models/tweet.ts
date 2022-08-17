@@ -3,7 +3,7 @@ import { model, Schema, Types } from "mongoose";
 // Create Schema
 const tweetSchema = new Schema<{}>({
   owner: { type: Types.ObjectId, required: true },
-  like: [{ type: Types.ObjectId }],
+  likes: [{ type: Types.ObjectId }],
   comments: [
     {
       id: { type: Types.ObjectId, required: true },

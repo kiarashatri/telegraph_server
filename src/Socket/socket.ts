@@ -5,17 +5,19 @@ import middlewares from "./middlewares/middlewares";
 
 // Emmit's
 import allUnreadMsgFromServer from "./emits/allUnreadMsgFromServer";
+import sendTweetsByPagination from "./emits/sendTweetsByPagination";
+import sendAllFollowingStorysInfoFromServer from "./emits/sendAllFollowingStorysInfoFromServer";
 
 // Listener's
 import newMessageFromClient from "./listeners/newMessageFromClient";
 import addNewStory from "./listeners/addNewStory";
+import getStoryPhoto from "./listeners/getStoryPhoto";
+import addNewTweet from "./listeners/addNewTweet";
 
 // Service's
 import startRedis from "./services/startRedis";
 import setClientOfflineInRedis from "./services/setClientOfflineInRedis";
 import DBconnection from "../Database/connection";
-import sendAllFollowingStorysInfoFromServer from "./emits/sendAllFollowingStorysInfoFromServer";
-import getStoryPhoto from "./listeners/getStoryPhoto";
 
 export default function Sockets(io: Server): void {
   // Instantiate redis on Server Fire-up
@@ -30,12 +32,14 @@ export default function Sockets(io: Server): void {
 
     // Fire-up Emit's
     allUnreadMsgFromServer(socket, redisCache);
+    sendTweetsByPagination(socket, 1);
     // sendAllFollowingStorysInfoFromServer(socket);
 
     // Fire-up listener's
     newMessageFromClient(socket, redisCache);
     addNewStory(socket);
     getStoryPhoto(socket);
+    addNewTweet(socket);
 
     // User leave socket Listener
     socket.on("disconnect", () => {
