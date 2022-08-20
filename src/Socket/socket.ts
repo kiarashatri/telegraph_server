@@ -13,11 +13,15 @@ import newMessageFromClient from "./listeners/newMessageFromClient";
 import addNewStory from "./listeners/addNewStory";
 import getStoryPhoto from "./listeners/getStoryPhoto";
 import addNewTweet from "./listeners/addNewTweet";
+import toggleTweetLike from "./listeners/toggleTweetLike";
 
 // Service's
 import startRedis from "./services/startRedis";
 import setClientOfflineInRedis from "./services/setClientOfflineInRedis";
 import DBconnection from "../Database/connection";
+import getComments from "./listeners/getComments";
+import getTweetsOfAnUser from "./listeners/getTweetsOfAnUser";
+import getFollowersRequest from "./listeners/getFollowingListRequest";
 
 export default function Sockets(io: Server): void {
   // Instantiate redis on Server Fire-up
@@ -40,6 +44,10 @@ export default function Sockets(io: Server): void {
     addNewStory(socket);
     getStoryPhoto(socket);
     addNewTweet(socket);
+    toggleTweetLike(socket);
+    getComments(socket);
+    getTweetsOfAnUser(socket);
+    getFollowersRequest(socket);
 
     // User leave socket Listener
     socket.on("disconnect", () => {

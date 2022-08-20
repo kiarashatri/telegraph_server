@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
 import tweet from "../../Database/Models/tweet";
-import sendSingleTweetToClient from "../emits/sendSingleTweetToClient";
+import sendSingleTweetToFollowers from "../emits/sendSingleTweetToFollowers";
 
 export default function addNewTweet(socket: Socket) {
   socket.on("addNewTweet", async (tweetContext: any) => {
@@ -13,7 +13,7 @@ export default function addNewTweet(socket: Socket) {
         send_at: new Date(),
       });
       const savedTweet: any = await newTweet.save();
-      sendSingleTweetToClient(socket, savedTweet);
+      sendSingleTweetToFollowers(socket, savedTweet);
     } catch (error) {
       console.log("Listener error: addNewTweet.ts");
     }

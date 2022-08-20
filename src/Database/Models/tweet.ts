@@ -9,7 +9,7 @@ const tweetSchema = new Schema<{}>({
       id: { type: Types.ObjectId, required: true },
       owner: { type: Types.ObjectId, required: true },
       context: { type: String, required: true },
-      reply_to: { type: Types.ObjectId, required: false },
+      reply_to: { type: Types.ObjectId, required: false, default: null },
       sent_at: { type: Date, required: true },
     },
   ],

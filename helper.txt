@@ -23,19 +23,27 @@ Emit's :
       - sendUserProfile: (emit name: sendUserProfileFromServer) => send name,family, username, user_id, photo, biography, last_seen
       - sendLastSeenFromServer: array of users last_seen status => [{userId: id, lastSeen:Date}]
       - sendAllFollowingStorysInfoFromServer run fist at start conn to user
-      - sendStoryPhotoFromServer:gets( {ownerId, ObjectId} ) :  return { status: bool,id: storyModelRequest._id, image: storyModelRequest.image};
+      - sendStoryPhotoFromServer:gets( {ownerId, ObjectId} ) :  return { status: bool,id: storyModelRequest.  _id, image: storyModelRequest.image};
+      - sendTweetToClientFromServer : send array tweet to user by pagination
+      - recieveTweetCommentsFromServer
+      - SendFollowerListFromServer: returnObj -> { userId: string, following:array }
 
   Client-side:
-    newMessageFromClient: arg => {
+    - newMessageFromClient: arg => {
       to: user_id,
       reply_to?: message_id,
       context: { image: "img", text: "string"}
     }
-    receiveUserProfile: arg: (userId of user we want) {
+    - receiveUserProfile: arg: (userId of user we want) {
       based of server-side sendUserProfile emit: returns => name,family, username, user_id, photo, biography
     }
-    requestLastSeen: (arg: array of userId) => emit a list of users that we want their last seen
-  
+    - requestLastSeen: (arg: array of userId) => emit a list of users that we want their last seen
+    - addNewTweet: tweetContext
+    - toggleTweetLike: (args: tweetId) => toggle from db and return true | false
+    - getComments : (args: tweetId, skipPage)
+    - getTweetsOfAnUser : (args: userId, skipPage)
+    - getFollowingListRequest: (arg: requestUserId) => {userId: string, following: array}
+
 
 
   ----------------------------------------------------------------------------------------------
