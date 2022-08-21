@@ -26,7 +26,8 @@ Emit's :
       - sendStoryPhotoFromServer:gets( {ownerId, ObjectId} ) :  return { status: bool,id: storyModelRequest.  _id, image: storyModelRequest.image};
       - sendTweetToClientFromServer : send array tweet to user by pagination
       - recieveTweetCommentsFromServer
-      - SendFollowerListFromServer: returnObj -> { userId: string, following:array }
+      - SendFollowingListFromServer: returnObj -> { userId: string, following:array }
+      
 
   Client-side:
     - newMessageFromClient: arg => {
@@ -43,6 +44,7 @@ Emit's :
     - getComments : (args: tweetId, skipPage)
     - getTweetsOfAnUser : (args: userId, skipPage)
     - getFollowingListRequest: (arg: requestUserId) => {userId: string, following: array}
+    - getBlockListRequest : => [ blockedUsers ]
 
 
 
@@ -65,26 +67,30 @@ Emit's :
 
 
 
-    const aa = new user({
-    // _id: socket.data.user.ObjectId,
-    name: "kia",
-    family: "atri",
-    hashPassword: "5joRzUcZu3OkKsFCjV5ydNgxYAWl+YbCeSL8uFJ2nC8=",
-    username: "kiarashatri",
-    email: "kia@gmail.cm",
-    photo: 'base64Photohere',
-    biography: 'my biography here',
-    phone: 91188301030,
-    last_seen: new Date(),
-    register_time: new Date(),
-    email_confirmation: new Date(),
-    following: [
-      { id: new Types.ObjectId(), time_add: new Date() },
-      { id: new Types.ObjectId(), time_add: new Date() },
-      { id: new Types.ObjectId(), time_add: new Date() },
-    ],
-    block: [{ id: new Types.ObjectId(), time_block: new Date() }],
-    setting: {},
-  });
 
-  await aa.save();
+    await user.findByIdAndDelete("63021504584d11f17ccd739e");
+    const a2 = new user({
+      name: "john",
+      family: "snow",
+      hashPassword: "5joRzUcZu3OkKsFCjV5ydNgxYAWl+YbCeSL8uFJ2nC8=",
+      username: "jhonsnow",
+      email: "jhonsnow@email.com",
+      photo: "base64Photohere",
+      biography: "my jhonsnow bio here",
+      phone: 91188301030,
+      last_seen: new Date(),
+      register_at: new Date(),
+      email_confirmation: new Date(),
+      following: [
+        {
+          id: new Types.ObjectId("62fc0c0c2b83bd50cb5fef05"),
+          added_at: new Date(),
+        },
+        { id: new Types.ObjectId(), added_at: new Date() },
+        { id: new Types.ObjectId(), added_at: new Date() },
+      ],
+      block: [{ id: new Types.ObjectId(), blocked_at: new Date() }],
+      setting: {},
+    });
+
+    await a2.save();

@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+import { Types } from "mongoose";
 
 // Socket.io Middleware's
 import middlewares from "./middlewares/middlewares";
@@ -22,6 +23,7 @@ import DBconnection from "../Database/connection";
 import getComments from "./listeners/getComments";
 import getTweetsOfAnUser from "./listeners/getTweetsOfAnUser";
 import getFollowersRequest from "./listeners/getFollowingListRequest";
+import relationChecker from "./services/relationChecker";
 
 export default function Sockets(io: Server): void {
   // Instantiate redis on Server Fire-up
@@ -44,7 +46,7 @@ export default function Sockets(io: Server): void {
     addNewStory(socket);
     getStoryPhoto(socket);
     addNewTweet(socket);
-    toggleTweetLike(socket);
+    // toggleTweetLike(socket);
     getComments(socket);
     getTweetsOfAnUser(socket);
     getFollowersRequest(socket);
