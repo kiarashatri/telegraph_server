@@ -94,3 +94,11 @@ Emit's :
     });
 
     await a2.save();
+
+
+
+        const d = sign(
+      { user_id: "63021602091fa84d91c8e9bf" },
+      "0684c60c14e870b7a16ad6f491cb896f232b46017a2b6c0261120bef5eba5100"
+    );
+    console.log(d);

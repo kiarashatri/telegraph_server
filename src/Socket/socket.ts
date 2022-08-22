@@ -1,4 +1,4 @@
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
 import { Types } from "mongoose";
 
 // Socket.io Middleware's
@@ -15,15 +15,17 @@ import addNewStory from "./listeners/addNewStory";
 import getStoryPhoto from "./listeners/getStoryPhoto";
 import addNewTweet from "./listeners/addNewTweet";
 import toggleTweetLike from "./listeners/toggleTweetLike";
+import getComments from "./listeners/getComments";
+import getTweetsOfAnUser from "./listeners/getTweetsOfAnUser";
+import getFollowersRequest from "./listeners/getFollowingListRequest";
+import toggleBlockUser from "./listeners/toggleBlockUser";
+import getPublicityStatus from "./listeners/getPublicityStatus";
+import togglePublicityStatus from "./listeners/togglePublicityStatus";
 
 // Service's
 import startRedis from "./services/startRedis";
 import setClientOfflineInRedis from "./services/setClientOfflineInRedis";
 import DBconnection from "../Database/connection";
-import getComments from "./listeners/getComments";
-import getTweetsOfAnUser from "./listeners/getTweetsOfAnUser";
-import getFollowersRequest from "./listeners/getFollowingListRequest";
-import relationChecker from "./services/relationChecker";
 
 export default function Sockets(io: Server): void {
   // Instantiate redis on Server Fire-up
@@ -39,7 +41,7 @@ export default function Sockets(io: Server): void {
     // Fire-up Emit's
     allUnreadMsgFromServer(socket, redisCache);
     sendTweetsByPagination(socket, 1);
-    // sendAllFollowingStorysInfoFromServer(socket);
+    sendAllFollowingStorysInfoFromServer(socket);
 
     // Fire-up listener's
     newMessageFromClient(socket, redisCache);
@@ -47,9 +49,12 @@ export default function Sockets(io: Server): void {
     getStoryPhoto(socket);
     addNewTweet(socket);
     // toggleTweetLike(socket);
+    toggleBlockUser(socket);
     getComments(socket);
     getTweetsOfAnUser(socket);
     getFollowersRequest(socket);
+    getPublicityStatus(socket);
+    togglePublicityStatus(socket);
 
     // User leave socket Listener
     socket.on("disconnect", () => {

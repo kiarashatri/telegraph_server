@@ -2,8 +2,8 @@ import { model, Schema, Types } from "mongoose";
 
 // Create Schema
 const messageSchema = new Schema<{}>({
-  from: { type: Types.ObjectId, required: true },
-  to: { type: Types.ObjectId, required: true },
+  from: { type: Types.ObjectId, required: true, ref: "user" },
+  to: { type: Types.ObjectId, required: true, ref: "user" },
   reply_to: { type: Types.ObjectId, required: true },
   context: {
     image: { type: String, required: false },

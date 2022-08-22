@@ -5,12 +5,13 @@ export default async function joinToRoom(socket: Socket, redisCache: any) {
   try {
     socket.join(socket.data.user.user_id);
 
-    // const followingId: any = await user
-    //   .findById(socket.data.user.ObjectId)
-    //   .select("following.id");
-    // followingId.following.forEach((element: any) => {
-    //   socket.join(`followed-${element.id.toString()}`);
-    // });
+    const followingId: any = await user
+      .findById(socket.data.user.ObjectId)
+      .select("following.id");
+
+    followingId.following.forEach((element: any) => {
+      socket.join(`followed-${element.id.toString()}`);
+    });
 
     return true;
   } catch {
