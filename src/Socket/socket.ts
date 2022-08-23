@@ -8,6 +8,7 @@ import middlewares from "./middlewares/middlewares";
 import allUnreadMsgFromServer from "./emits/allUnreadMsgFromServer";
 import sendTweetsByPagination from "./emits/sendTweetsByPagination";
 import sendAllFollowingStorysInfoFromServer from "./emits/sendAllFollowingStorysInfoFromServer";
+import sendChatsList from "./emits/sendChatsList";
 
 // Listener's
 import newMessageFromClient from "./listeners/newMessageFromClient";
@@ -42,13 +43,14 @@ export default function Sockets(io: Server): void {
     allUnreadMsgFromServer(socket, redisCache);
     sendTweetsByPagination(socket, 1);
     sendAllFollowingStorysInfoFromServer(socket);
+    sendChatsList(socket);
 
     // Fire-up listener's
     newMessageFromClient(socket, redisCache);
     addNewStory(socket);
     getStoryPhoto(socket);
     addNewTweet(socket);
-    // toggleTweetLike(socket);
+    toggleTweetLike(socket);
     toggleBlockUser(socket);
     getComments(socket);
     getTweetsOfAnUser(socket);

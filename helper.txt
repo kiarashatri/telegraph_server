@@ -65,7 +65,15 @@ Emit's :
     setting: null
   });
 
+    const a2 = new message({
+      from: socket.data.user.ObjectId,
+      to: new Types.ObjectId(),
+      context: {
+        text: "hi this is test",
+      },
+    });
 
+    await a2.save();
 
 
     await user.findByIdAndDelete("63021504584d11f17ccd739e");
@@ -102,3 +110,13 @@ Emit's :
       "0684c60c14e870b7a16ad6f491cb896f232b46017a2b6c0261120bef5eba5100"
     );
     console.log(d);
+
+
+
+     db.tweets.insertOne({
+    owner: ObjectId("62fbb1a596ac46dda02af592"),
+    likes: [ObjectId("63021602091fa84d91c8e9bf")],
+    comments: [],
+    context: 'im tweeting! brah',
+    sent_at: ISODate("2022-08-17T17:15:37.718Z"),
+  })
