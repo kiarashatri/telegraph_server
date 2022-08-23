@@ -23,6 +23,7 @@ export default async function sendAllFollowingStorysInfoFromServer(
 
     const returnStorys = await story.find({
       owner: { $in: returnFollowingArray },
+      removeed: false,
       added_at: { $lte: subtractDays(1) },
     });
 

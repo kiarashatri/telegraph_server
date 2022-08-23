@@ -91,10 +91,10 @@ As soon as Project complete, Demo will be upload on server.
 ## 🛠 Used echnologies :
 
 - Requests :
-  WebSocket.io, Axios
+  Axios
 
 - Web-Socket :
-  Websocket.io
+  Socket.io
 
 ## End Point's :
 

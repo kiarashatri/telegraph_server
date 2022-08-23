@@ -6,6 +6,7 @@ const storySchema = new Schema<{}>({
   image: { type: String, required: true },
   added_at: { type: Date, required: true },
   seen_by: [{ by: { type: Types.ObjectId }, at: { type: Date } }],
+  removed: { type: Boolean, required: false, default: false },
 });
 
 const story = model("story", storySchema);
