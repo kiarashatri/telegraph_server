@@ -15,6 +15,7 @@ const tweetSchema = new Schema<{}>({
   ],
   context: { type: String, lowercase: true, trim: true, required: true },
   sent_at: { type: Date, default: Date.now, required: true },
+  removed: { type: Boolean, default: false, required: false },
 });
 
 const tweet = model("tweet", tweetSchema);

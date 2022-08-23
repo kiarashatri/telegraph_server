@@ -20,7 +20,7 @@ export default function getTweetsOfAnUser(socket: Socket) {
             }
 
             const tweetResults: any = await tweet
-              .find({ owner: new Types.ObjectId(userId) })
+              .find({ owner: new Types.ObjectId(userId), removed: false })
               .select("_id owner context sent_at likes comments.id")
               .limit(returnTweetEveryTime)
               .skip(skipBaseOnPagination);

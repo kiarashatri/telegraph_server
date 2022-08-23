@@ -18,7 +18,7 @@ export default async function sendTweetsByPagination(
     }
 
     const tweetResults: any = await tweet
-      .find({ owner: { $in: userFollowingList } })
+      .find({ owner: { $in: userFollowingList }, removed: false })
       .select("_id owner context sent_at likes comments.id")
       .limit(returnTweetEveryTime)
       .skip(skipBaseOnPagination);
