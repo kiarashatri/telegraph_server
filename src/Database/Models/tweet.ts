@@ -6,7 +6,7 @@ const tweetSchema = new Schema<{}>({
   likes: [{ type: Types.ObjectId }],
   comments: [
     {
-      id: { type: Types.ObjectId, required: true },
+      // id: { type: Types.ObjectId, required: true },
       owner: { type: Types.ObjectId, required: true },
       context: { type: String, required: true },
       reply_to: { type: Types.ObjectId, required: false, default: null },
