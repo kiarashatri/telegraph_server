@@ -1,8 +1,10 @@
 import { createHash } from "crypto";
+import { Types } from "mongoose";
 import user from "../../Database/Models/user";
 
 export default async function insertUserToDb(postData: any) {
   try {
+    const email_confirmation_obj_token = new Types.ObjectId();
     const insert = new user({
       name: postData.name,
       family: postData.family,
@@ -15,9 +17,12 @@ export default async function insertUserToDb(postData: any) {
       last_seen: new Date(),
       register_at: new Date(),
       email_confirmation: null,
+      email_confirmation_token: email_confirmation_obj_token,
     });
 
     await insert.save();
+
+    SendConfirmAccountEmail(email_confirmation_obj_token, postData.email);
 
     return true;
   } catch (error) {

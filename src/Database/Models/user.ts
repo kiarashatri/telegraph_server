@@ -13,6 +13,11 @@ const usersSchema = new Schema<{}>({
   last_seen: { type: Date, default: null, required: true },
   register_at: { type: Date, default: null, required: true },
   email_confirmation: { type: Date, default: null, required: false },
+  email_confirmation_token: {
+    type: Types.ObjectId,
+    default: new Types.ObjectId(),
+    required: false,
+  },
   following: [{ id: Types.ObjectId, added_at: Date }],
   block: [{ id: Types.ObjectId, blocked_at: Date }],
   setting: { type: Object, required: false },

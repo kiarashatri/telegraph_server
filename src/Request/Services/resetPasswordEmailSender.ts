@@ -15,8 +15,8 @@ export default async function resetPasswordEmailSender(
       to: userObjFromDb.email,
       subject: "Telegraph massenger Reset Password",
       html: `<a href="${
-        process.env.RESET_PASSWORD_FROM_TOKEN_URI
-      }/?token=${token.toString()}">Click On this link to **RESET PASSWORD**</a>`,
+        process.env.BASE_URI
+      }reset_password/?token=${token.toString()}">Click On this link to **RESET PASSWORD**</a>`,
     });
   } catch (error) {}
 }
