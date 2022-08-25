@@ -9,9 +9,11 @@ export default function deleteTweetComment(socket: Socket) {
     const tweetResponseDb: any = await tweet.findOne({
       "comments.id": commentId,
     });
-    tweetResponseDb.comments = tweetResponseDb.comments.filter((comment) => {
-      return !comment._id.equals(commentId);
-    });
+    tweetResponseDb.comments = tweetResponseDb.comments.filter(
+      (comment: any) => {
+        return !comment._id.equals(commentId);
+      }
+    );
 
     await tweetResponseDb.save();
   });
