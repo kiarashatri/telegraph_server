@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import user from "../../Database/Models/user";
-import relationChecker from "../services/relationChecker";
+import user from "../../../Database/Models/user";
+import relationChecker from "../../services/relationChecker";
 
 export default function getFollowingListRequest(socket: Socket) {
   socket.on("getFollowingListRequest", async (requestUserId) => {

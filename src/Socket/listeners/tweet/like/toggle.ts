@@ -1,11 +1,11 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import tweet from "../../Database/Models/tweet";
-import relationChecker from "../services/relationChecker";
+import tweet from "../../../../Database/Models/tweet";
+import relationChecker from "../../../services/relationChecker";
 
 export default async function toggleTweetLike(socket: Socket) {
-  socket.on("toggleTweetLike", async (tweetId) => {
-    try {
+  try {
+    socket.on("tweet/like/toggle", async (tweetId, response) => {
       const tweetObj: any = await tweet
         .findOne({ _id: new Types.ObjectId(tweetId) })
         .select("owner likes");
@@ -30,11 +30,10 @@ export default async function toggleTweetLike(socket: Socket) {
         }
 
         await tweetObj.save();
+        response({ status: "done" });
       }
-    } catch (error) {
-      console.error(
-        `Error while toggle tweet like. userId: ${socket.data.user.user_id} -  socketId: ${socket.id}`
-      );
-    }
-  });
+    });
+  } catch (error) {
+    console.error(`Listener error: tweet/like/toggle`, error);
+  }
 }

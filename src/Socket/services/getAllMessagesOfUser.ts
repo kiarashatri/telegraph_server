@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import message from "../../Database/Models/message";
 
-export default async function getMessageOfUser(
+export default async function getAllMessagesOfUser(
   fromUser: string | Types.ObjectId,
   toUser: string | Types.ObjectId,
   page: number

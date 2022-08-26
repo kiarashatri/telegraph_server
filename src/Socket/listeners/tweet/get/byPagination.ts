@@ -1,18 +1,18 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import tweet from "../../Database/Models/tweet";
-import user from "../../Database/Models/user";
+import tweet from "../../../../Database/Models/tweet";
+import user from "../../../../Database/Models/user";
 
-export default function getTweetsOfAnUser(socket: Socket) {
-  socket.on("getTweetsOfAnUser", async (userId, page) => {
-    try {
+export default function getTweetsOfAnUserByPagination(socket: Socket) {
+  try {
+    socket.on("tweet/get/byPagination", async (userId, page, response) => {
       await user.exists(
         {
           _id: socket.data.user.ObjectId,
           "following.id": new Types.ObjectId(userId),
         },
-        async (error, response) => {
-          if (response !== null) {
+        async (error, dbResponse) => {
+          if (dbResponse !== null) {
             const returnTweetEveryTime = 20;
             let skipBaseOnPagination = 0;
             if (page > 1) {
@@ -44,16 +44,12 @@ export default function getTweetsOfAnUser(socket: Socket) {
               });
             });
 
-            if (tweetResults.length !== 0) {
-              socket.emit("recieveTweetCommentsFromServer", responseObject);
-            }
+            response(responseObject);
           }
         }
       );
-    } catch (error) {
-      console.error(
-        "Manual Logging: error in running -> sendTweetByPagination.ts"
-      );
-    }
-  });
+    });
+  } catch (error) {
+    console.error(`Listener error: tweet/get/byPagination`, error);
+  }
 }

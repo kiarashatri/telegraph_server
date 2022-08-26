@@ -1,11 +1,11 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import followRequest from "../../Database/Models/followRequest";
-import relationChecker from "../services/relationChecker";
+import followRequest from "../../../../Database/Models/followRequest";
+import relationChecker from "../../../services/relationChecker";
 
-export default function addFollowRequest(socket: Socket) {
+export default function listenerFollowAddRequest(socket: Socket) {
   socket.on(
-    "followRequest",
+    "follow/add/request",
     async (userId: string | Types.ObjectId, insert: boolean = true) => {
       userId = new Types.ObjectId(userId);
       if (

@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import user from "../../Database/Models/user";
+import user from "../../../Database/Models/user";
 
 export default function getPublicityStatus(socket: Socket) {
   socket.on(

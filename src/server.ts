@@ -4,25 +4,31 @@ import http from "http";
 import { Server } from "socket.io";
 import Routes from "./Request/routes";
 import Sockets from "./Socket/socket";
+import dotenv from "dotenv";
+dotenv.config();
 
-const app: Express = express();
-const server = http.createServer(app);
-const io = new Server(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-});
+try {
+  const app: Express = express();
+  const server = http.createServer(app);
+  const io = new Server(server, {
+    cors: {
+      origin: process.env.CROSS_ORIGIN,
+      methods: ["POST"],
+    },
+  });
 
-app.use(express.json());
-app.use(cors());
+  app.use(express.json());
+  app.use(cors());
 
-Routes(app);
-Sockets(io);
+  Routes(app);
+  Sockets(io);
 
-app.listen(4000, () => {
-  console.log("Express listening on *:4000");
-});
-server.listen(5000, () => {
-  console.log("Socket.io listening on *:5000");
-});
+  app.listen(process.env.EXPRESS_PORT, () => {
+    console.log(`Express listening on *: ${process.env.EXPRESS_PORT}`);
+  });
+  server.listen(process.env.SOCKET_PORT, () => {
+    console.log(`Socket.io listening on *: ${process.env.SOCKET_PORT}`);
+  });
+} catch (error) {
+  console.error("Starting server failed.", error);
+}

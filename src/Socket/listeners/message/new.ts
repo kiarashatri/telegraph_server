@@ -1,8 +1,7 @@
-import { ObjectId, Types } from "mongoose";
 import { Socket } from "socket.io";
-import sendMessageToUser from "../emits/sendMessageToUser";
-import relationChecker from "../services/relationChecker";
-import saveMessageToDb from "../services/saveMessageToDb";
+import sendMessageToSpecificUser from "../../emits/sendMessageToSpecificUser";
+import relationChecker from "../../services/relationChecker";
+import saveMessageToDb from "../../services/saveMessageToDb";
 
 interface dbData {
   to: string;
@@ -18,12 +17,9 @@ interface dbData {
   __v: number;
 }
 
-export default function newMessageFromClient(
-  socket: Socket,
-  redisCache: any
-): void {
-  socket.on("newMessageFromClient", async (arg: dbData) => {
-    try {
+export default function newMessage(socket: Socket, redisCache: any): void {
+  try {
+    socket.on("message/new", async (arg: dbData, response) => {
       const currentUser2TargetUserRelation = await relationChecker(
         socket.data.user.ObjectId,
         arg.to
@@ -32,6 +28,7 @@ export default function newMessageFromClient(
         arg.to,
         socket.data.user.ObjectId
       );
+
       if (
         !currentUser2TargetUserRelation.isBlocked &&
         !TargetUser2CurrentUserRelation.isBlocked
@@ -43,8 +40,12 @@ export default function newMessageFromClient(
         delete data.seen_at;
 
         // send message to user if the user in online
-        sendMessageToUser(socket, data, redisCache);
+        sendMessageToSpecificUser(socket, data, redisCache);
       }
-    } catch (error) {}
-  });
+
+      response({ status: "ok" });
+    });
+  } catch (error) {
+    console.error(`Listener error: message/new`, error);
+  }
 }

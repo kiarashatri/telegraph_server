@@ -10,22 +10,12 @@ import sendAllFollowingStorysInfoFromServer from "./emits/sendAllFollowingStorys
 import sendChatsList from "./emits/sendChatsList";
 
 // Listener's
-import newMessageFromClient from "./listeners/newMessageFromClient";
-import addNewStory from "./listeners/addNewStory";
-import getStoryPhoto from "./listeners/getStoryPhoto";
-import addNewTweet from "./listeners/addNewTweet";
-import toggleTweetLike from "./listeners/toggleTweetLike";
-import getComments from "./listeners/getComments";
-import getTweetsOfAnUser from "./listeners/getTweetsOfAnUser";
-import getFollowersRequest from "./listeners/getFollowingListRequest";
-import toggleBlockUser from "./listeners/toggleBlockUser";
-import getPublicityStatus from "./listeners/getPublicityStatus";
-import togglePublicityStatus from "./listeners/togglePublicityStatus";
 
 // Service's
 import startRedis from "./services/startRedis";
 import setClientOfflineInRedis from "./services/setClientOfflineInRedis";
 import DBconnection from "../Database/connection";
+import getAllMessagesOfSpecificUserByPagination from "./listeners/message/get/all/byPagination";
 
 export default function Sockets(io: Server): void {
   // Instantiate redis on Server Fire-up
@@ -45,17 +35,9 @@ export default function Sockets(io: Server): void {
     sendChatsList(socket);
 
     // Fire-up listener's
-    newMessageFromClient(socket, redisCache);
-    addNewStory(socket);
-    getStoryPhoto(socket);
-    addNewTweet(socket);
-    toggleTweetLike(socket);
-    toggleBlockUser(socket);
-    getComments(socket);
-    getTweetsOfAnUser(socket);
-    getFollowersRequest(socket);
-    getPublicityStatus(socket);
-    togglePublicityStatus(socket);
+
+    // On: message/get/all/byPagination
+    getAllMessagesOfSpecificUserByPagination(socket);
 
     // User leave socket Listener
     socket.on("disconnect", () => {
