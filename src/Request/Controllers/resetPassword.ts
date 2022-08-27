@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import user from "../../Database/Models/user";
-import resetPasswordEmailSender from "../Services/resetPasswordEmailSender";
-import saveToDbResetPassword from "../Services/saveToDbResetPassword";
+import user from "../../database/models/user";
+import resetPasswordEmailSender from "../services/resetPasswordEmailSender";
+import saveToDbResetPassword from "../services/saveToDbResetPassword";
 
 export default async function resetPassword(req: Request, res: Response) {
   const userEmail = req.body.email;

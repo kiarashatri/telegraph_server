@@ -1,6 +1,6 @@
 import { createHash } from "crypto";
 import { Types } from "mongoose";
-import user from "../../Database/Models/user";
+import user from "../../database/models/user";
 import SendConfirmAccountEmail from "./SendConfirmAccountEmail";
 
 export default async function insertUserToDb(postData: any) {

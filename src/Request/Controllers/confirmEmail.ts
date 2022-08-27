@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { Types } from "mongoose";
-import user from "../../Database/Models/user";
+import user from "../../database/models/user";
 
 export default async function confirmEmail(req: Request, res: Response) {
   const responseObj = { status: false };

@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import tweet from "../../../../Database/Models/tweet";
+import tweet from "../../../../database/models/tweet";
 import relationChecker from "../../../services/relationChecker";
 
 export default async function toggleTweetLike(socket: Socket) {

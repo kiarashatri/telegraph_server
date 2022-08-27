@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import user from "../../Database/Models/user";
+import user from "../../database/models/user";
 
 function convertToObjectId(
   userId: Types.ObjectId | string

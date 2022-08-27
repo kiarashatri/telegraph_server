@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import user from "../../../../Database/Models/user";
+import user from "../../../../database/models/user";
 
 export default function toggleUserBlock(socket: Socket) {
   try {

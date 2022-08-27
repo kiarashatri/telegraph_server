@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { mailTransporter } from "../../Email/mailTransporter";
+import { mailTransporter } from "../../email/mailTransporter";
 
 export default async function SendConfirmAccountEmail(
   token: Types.ObjectId,

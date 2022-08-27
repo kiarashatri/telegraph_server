@@ -36,7 +36,7 @@ import togglePublicityStatus from "./listeners/user/publicity/toggle";
 // Service's
 import startRedis from "./services/startRedis";
 import setClientOfflineInRedis from "./services/setClientOfflineInRedis";
-import DBconnection from "../Database/connection";
+import DBconnection from "../database/connection";
 
 export default function Sockets(io: Server): void {
   // Instantiate redis on Server Fire-up
@@ -45,7 +45,7 @@ export default function Sockets(io: Server): void {
   // Connect to MongoDB
   DBconnection();
 
-  io.on("connection", async (socket): Promise<void> => {
+  io.on("connection", async (socket: Socket): Promise<void> => {
     // Bind Middleware's to webSocket
     middlewares(socket, redisCache);
 

@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
-import user from "../../Database/Models/user";
-import { mailTransporter } from "../../Email/mailTransporter";
+import user from "../../database/models/user";
+import { mailTransporter } from "../../email/mailTransporter";
 import dotenv from "dotenv";
 dotenv.config();
 

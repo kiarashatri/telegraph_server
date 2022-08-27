@@ -1,6 +1,6 @@
 import { response } from "express";
 import { Socket } from "socket.io";
-import followRequest from "../../../../../../Database/Models/followRequest";
+import followRequest from "../../../../../../database/models/followRequest";
 
 export default function getAllFollowingRequest(socket: Socket) {
   try {

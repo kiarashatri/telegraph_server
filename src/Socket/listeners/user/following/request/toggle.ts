@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import followRequest from "../../../../../Database/Models/followRequest";
+import followRequest from "../../../../../database/models/followRequest";
 import relationChecker from "../../../../services/relationChecker";
 
 export default function toggleFollowRequest(socket: Socket) {

@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import story from "../../../Database/Models/story";
+import story from "../../../database/models/story";
 
 export default function deleteStory(socket: Socket) {
   try {

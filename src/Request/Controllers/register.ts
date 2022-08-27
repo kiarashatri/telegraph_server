@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import user from "../../Database/Models/user";
-import insertUserToDb from "../Services/insertUserToDb";
+import user from "../../database/models/user";
+import insertUserToDb from "../services/insertUserToDb";
 
 function validateInputs(postData: any) {
   const emailRegex =

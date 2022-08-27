@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import tweet from "../../../../../Database/Models/tweet";
-import user from "../../../../../Database/Models/user";
+import tweet from "../../../../../database/models/tweet";
+import user from "../../../../../database/models/user";
 
 export default function getCommentsByPagination(socket: Socket) {
   try {

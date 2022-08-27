@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import story from "../../../../Database/Models/story";
-import user from "../../../../Database/Models/user";
+import story from "../../../../database/models/story";
+import user from "../../../../database/models/user";
 
 type userObjType = string | Types.ObjectId;
 

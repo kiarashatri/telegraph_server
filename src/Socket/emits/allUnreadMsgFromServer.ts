@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
 import { Types } from "mongoose";
-import message from "../../Database/Models/message";
+import message from "../../database/models/message";
 
 export default async function allUnreadMsgFromServer(
   socket: Socket,

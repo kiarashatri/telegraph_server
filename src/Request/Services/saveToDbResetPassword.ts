@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import resetPassword from "../../Database/Models/resetPassword";
+import resetPassword from "../../database/models/resetPassword";
 
 export default async function saveToDbResetPassword(userObj: Types.ObjectId) {
   try {

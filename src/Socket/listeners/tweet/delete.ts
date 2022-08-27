@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import tweet from "../../../Database/Models/tweet";
+import tweet from "../../../database/models/tweet";
 
 export default function deleteTweet(socket: Socket) {
   try {

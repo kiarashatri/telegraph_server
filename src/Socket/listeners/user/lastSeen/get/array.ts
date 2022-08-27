@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import user from "../../../../../Database/Models/user";
+import user from "../../../../../database/models/user";
 
 export default function getLastSeenFromArray(socket: Socket, redisCache: any) {
   try {

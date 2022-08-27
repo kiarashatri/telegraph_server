@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import story from "../../../Database/Models/story";
+import story from "../../../database/models/story";
 
 export default function addNewStory(socket: Socket) {
   try {

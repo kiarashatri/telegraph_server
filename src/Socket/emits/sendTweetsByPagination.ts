@@ -1,6 +1,6 @@
 import { Socket } from "socket.io";
-import user from "../../Database/Models/user";
-import tweet from "../../Database/Models/tweet";
+import user from "../../database/models/user";
+import tweet from "../../database/models/tweet";
 
 export default async function sendTweetsByPagination(
   socket: Socket,

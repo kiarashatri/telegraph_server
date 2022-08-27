@@ -1,8 +1,8 @@
 import { createHash } from "crypto";
 import { Request, Response } from "express";
 import { Types } from "mongoose";
-import resetPassword from "../../Database/Models/resetPassword";
-import user from "../../Database/Models/user";
+import resetPassword from "../../database/models/resetPassword";
+import user from "../../database/models/user";
 
 function subtractDays(numOfDays: any, date: Date = new Date()) {
   date.setDate(date.getDate() - numOfDays);

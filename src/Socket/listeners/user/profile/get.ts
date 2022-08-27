@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import user from "../../../../Database/Models/user";
+import user from "../../../../database/models/user";
 import relationChecker from "../../../services/relationChecker";
 
 export default function getUserProfile(socket: Socket): void {

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import user from "../../Database/Models/user";
+import user from "../../database/models/user";
 import { createHash } from "crypto";
 import { sign } from "jsonwebtoken";
 import dotenv from "dotenv";

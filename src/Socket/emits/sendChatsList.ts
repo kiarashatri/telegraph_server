@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import message from "../../Database/Models/message";
+import message from "../../database/models/message";
 
 export default async function sendChatsList(socket: Socket) {
   try {

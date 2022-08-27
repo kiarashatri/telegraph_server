@@ -2,8 +2,8 @@ import express, { Express } from "express";
 import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
-import Routes from "./Request/routes";
-import Sockets from "./Socket/socket";
+import Routes from "./request/routes";
+import Sockets from "./socket/socket";
 import dotenv from "dotenv";
 dotenv.config();
 
