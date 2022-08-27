@@ -14,9 +14,12 @@ export default async function joinToRoom(socket: Socket, redisCache: any) {
     });
 
     return true;
-  } catch {
-    console.log(
-      `Faild to join the room : { socket_id: '${socket.id}' , user_id:'${socket.data.user.user_id}' }`
+  } catch (error) {
+    console.error(
+      "Middleware error: joinToRoom",
+      `User-id: ${socket.data.user.user_id}`,
+      `Socket-id: ${socket.id}`,
+      `Error: ${error}`
     );
     return false;
   }

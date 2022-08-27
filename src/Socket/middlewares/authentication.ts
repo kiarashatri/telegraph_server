@@ -15,9 +15,11 @@ export default function authentication(
     );
     socket.data.user.ObjectId = new Types.ObjectId(socket.data.user.user_id);
     return true;
-  } catch {
-    console.log(
-      `Faild to verify authentication: { socket_id: '${socket.id}' , access_token:'${socket.handshake.auth.accessToken}' }`
+  } catch (error) {
+    console.error(
+      "Middleware error: authentication",
+      `Socket-id: ${socket.id}`,
+      `Error: ${error}`
     );
     return false;
   }
