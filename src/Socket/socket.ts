@@ -4,10 +4,10 @@ import { Server, Socket } from "socket.io";
 import middlewares from "./middlewares/middlewares";
 
 // Emmit's
-import allUnreadMsgFromServer from "./emits/allUnreadMsgFromServer";
-import sendTweetsByPagination from "./emits/sendTweetsByPagination";
-import sendAllFollowingStorysInfoFromServer from "./emits/sendAllFollowingStorysInfoFromServer";
-import sendChatsList from "./emits/sendChatsList";
+import allUnreadMsgFromServer from "./emits/message/unread/send/all";
+import sendTweetsByPagination from "./emits/tweet/send/byPagination";
+import sendAllFollowingStorysInfoFromServer from "./emits/story/send/all";
+import sendChatsList from "./emits/user/chatList/send/all";
 
 // Listener's
 import getAllMessagesOfSpecificUserByPagination from "./listeners/message/get/all/byPagination";
@@ -37,6 +37,9 @@ import togglePublicityStatus from "./listeners/user/publicity/toggle";
 import startRedis from "./services/startRedis";
 import setClientOfflineInRedis from "./services/setClientOfflineInRedis";
 import DBconnection from "../database/connection";
+import sendAllFollowingStorysInfo from "./emits/story/send/all";
+import getAllchatList from "./emits/user/chatList/send/all";
+import sendAllTweetByPagination from "./emits/tweet/send/byPagination";
 
 export default function Sockets(io: Server): void {
   // Instantiate redis on Server Fire-up
@@ -50,6 +53,14 @@ export default function Sockets(io: Server): void {
     middlewares(socket, redisCache);
 
     // Fire-up Emit's
+    // To: user/chatList/send/all
+    getAllchatList(socket);
+    // To: message/unread/send/all
+    allUnreadMsgFromServer(socket);
+    // To: story/send/all
+    sendAllFollowingStorysInfo(socket);
+    // To: tweet/send/byPagination
+    sendAllTweetByPagination(socket);
 
     // Fire-up listener's =>
     // On: message/get/all/byPagination

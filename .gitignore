@@ -1,4 +1,5 @@
 /node_modules/
 /dist/
 .env
-.photo_to_socket_io.txt
+photo_to_socket_io.txt
+helper.txt

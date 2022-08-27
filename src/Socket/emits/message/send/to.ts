@@ -6,6 +6,6 @@ export default async function sendMessageToSpecificUser(
   redisCache: any
 ) {
   if (await redisCache.exists(data.to)) {
-    socket.to(data.to).emit("message/unread/send", data);
+    socket.to(data.to).emit("message/send/to", data);
   }
 }

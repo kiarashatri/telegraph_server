@@ -1,17 +1,19 @@
 import { Socket } from "socket.io";
-import user from "../../database/models/user";
-import tweet from "../../database/models/tweet";
+import user from "../../../../database/models/user";
+import tweet from "../../../../database/models/tweet";
+import dotenv from "dotenv";
+dotenv.config();
 
-export default async function sendTweetsByPagination(
+export default async function sendAllTweetByPagination(
   socket: Socket,
-  pageNumber: number
+  pageNumber: number = 1
 ) {
   try {
     const userFollowingList: any = await user
       .findById(socket.data.user.ObjectId)
       .select("following.id");
 
-    const returnTweetEveryTime = 15;
+    const returnTweetEveryTime = Number(process.env.RETURN_TWEET_EVERY_PAGE);
     let skipBaseOnPagination = 0;
     if (pageNumber > 1) {
       skipBaseOnPagination = (pageNumber - 1) * returnTweetEveryTime;
@@ -43,11 +45,14 @@ export default async function sendTweetsByPagination(
     });
 
     if (tweetResults.length !== 0) {
-      socket.emit("sendTweetToClientFromServer", responseObject);
+      socket.emit("tweet/send/byPagination", responseObject);
     }
   } catch (error) {
     console.error(
-      "Manual Logging: error in running -> sendTweetByPagination.ts"
+      "Emit error: tweet/send/byPagination",
+      `User-id: ${socket.data.user.user_id}`,
+      `Socket-id: ${socket.id}`,
+      `Error: ${error}`
     );
   }
 }

@@ -1,5 +1,5 @@
 import { Socket } from "socket.io";
-import sendMessageToSpecificUser from "../../emits/sendMessageToSpecificUser";
+import sendMessageToSpecificUser from "../../emits/message/send/to";
 import relationChecker from "../../services/relationChecker";
 import saveMessageToDb from "../../services/saveMessageToDb";
 

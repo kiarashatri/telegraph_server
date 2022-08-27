@@ -1,8 +1,8 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
-import message from "../../database/models/message";
+import message from "../../../../../database/models/message";
 
-export default async function sendChatsList(socket: Socket) {
+export default async function getAllchatList(socket: Socket) {
   try {
     const sendByUser = (
       await message.find({ from: socket.data.user.ObjectId }).distinct("to")
@@ -16,12 +16,15 @@ export default async function sendChatsList(socket: Socket) {
     });
 
     socket.emit(
-      "SendChatListFromServer",
+      "user/chatList/send/all",
       new Set<string>([...sendByUser, ...recieveByUser])
     );
   } catch (error) {
     console.error(
-      `Unable to send chat list to User: ${socket.data.user.user_id} - with socket id: ${socket.id}`
+      "Emit error: user/chatList/send/all",
+      `User-id: ${socket.data.user.user_id}`,
+      `Socket-id: ${socket.id}`,
+      `Error: ${error}`
     );
   }
 }

@@ -53,6 +53,17 @@ Emit's:
 
   - user/follow/request/new
 
+  ----------------------------------------------------------------------------------------------
+
+
+
+    error handling:
+
+      console.error("Emit error: message/unread/get/all",`User-id: ${socket.data.user.user_id}` , `Socket-id: ${socket.id}`, `Error: ${error}`);
+
+
+
+
 
 
 
