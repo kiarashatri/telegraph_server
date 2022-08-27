@@ -15,48 +15,52 @@ export default async function relationChecker(
   checkingUser: Types.ObjectId | string,
   checkByUser: Types.ObjectId | string
 ) {
-  const checkingUserObjectId = convertToObjectId(checkingUser);
-  const checkByUserObjectId = convertToObjectId(checkByUser);
+  try {
+    const checkingUserObjectId = convertToObjectId(checkingUser);
+    const checkByUserObjectId = convertToObjectId(checkByUser);
 
-  let isFollowedStatus: boolean;
-  if (
-    await user.exists({
-      _id: checkingUserObjectId,
-      "following.id": checkByUserObjectId,
-    })
-  ) {
-    isFollowedStatus = true;
-  } else {
-    isFollowedStatus = false;
+    let isFollowedStatus: boolean;
+    if (
+      await user.exists({
+        _id: checkingUserObjectId,
+        "following.id": checkByUserObjectId,
+      })
+    ) {
+      isFollowedStatus = true;
+    } else {
+      isFollowedStatus = false;
+    }
+
+    let isBlockedStatus: boolean;
+    if (
+      await user.exists({
+        _id: checkingUserObjectId,
+        "block.id": checkByUserObjectId,
+      })
+    ) {
+      isBlockedStatus = true;
+    } else {
+      isBlockedStatus = false;
+    }
+
+    let mutualStatus: boolean;
+    if (
+      await user.exists({
+        _id: checkByUserObjectId,
+        "following.id": checkingUserObjectId,
+      })
+    ) {
+      mutualStatus = true;
+    } else {
+      mutualStatus = false;
+    }
+
+    return {
+      isFollowed: isFollowedStatus,
+      isBlocked: isBlockedStatus,
+      mutual: mutualStatus,
+    };
+  } catch (error) {
+    console.error("Service error: relationChecker", `Error: ${error}`);
   }
-
-  let isBlockedStatus: boolean;
-  if (
-    await user.exists({
-      _id: checkingUserObjectId,
-      "block.id": checkByUserObjectId,
-    })
-  ) {
-    isBlockedStatus = true;
-  } else {
-    isBlockedStatus = false;
-  }
-
-  let mutualStatus: boolean;
-  if (
-    await user.exists({
-      _id: checkByUserObjectId,
-      "following.id": checkingUserObjectId,
-    })
-  ) {
-    mutualStatus = true;
-  } else {
-    mutualStatus = false;
-  }
-
-  return {
-    isFollowed: isFollowedStatus,
-    isBlocked: isBlockedStatus,
-    mutual: mutualStatus,
-  };
 }
