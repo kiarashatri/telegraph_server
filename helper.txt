@@ -39,6 +39,19 @@ Listener's :
   - user: 
    - user/block/get/all: () => {status: string}    
    - user/block/toggle: (userId: ObjectId) => {status: string}    
+   - user/follower/get/all: (userId: ObjectId) => {status: string}    
+   - user/following/get/all: (userId: ObjectId) => {status: string}    
+   - user/following/request/get/all: () => {status: string}    
+   - user/profile/get: () => {status: string}    
+
+
+
+
+
+
+Emit's:
+
+  - user/follow/request/new
 
 
 

@@ -1,9 +1,8 @@
-import { response } from "express";
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
 import user from "../../../../Database/Models/user";
 
-export default function listenerBlockToggle(socket: Socket) {
+export default function toggleUserBlock(socket: Socket) {
   try {
     socket.on("user/block/toggle", async (userId, response) => {
       const userIdObject = new Types.ObjectId(userId);
