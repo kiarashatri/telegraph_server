@@ -12,6 +12,12 @@ export default async function confirmEmail(req: Request, res: Response) {
     );
     responseObj.status = true;
   } catch (error) {
+    console.error(
+      `Error in controller: request/controller/confirmEmail`,
+      `Request: ${req}`,
+      `Response: ${res}`,
+      `Error: ${error}`
+    );
     responseObj.status = false;
   }
   res.send(responseObj);

@@ -43,6 +43,10 @@ function validateInputs(postData: any) {
       return false;
     }
   } catch (error) {
+    console.error(
+      `Error in Validator: request/controller/register => validateInputs`,
+      `Error: ${error}`
+    );
     return false;
   }
 
@@ -53,16 +57,16 @@ export default async function register(req: Request, res: Response) {
   const responseObj = {
     response: "",
   };
-  const postData = {
-    name: req.body.name,
-    family: req.body.family,
-    username: req.body.username,
-    stringPassword: req.body.password,
-    email: req.body.email,
-    phone: req.body.phone,
-  };
 
   try {
+    const postData = {
+      name: req.body.name,
+      family: req.body.family,
+      username: req.body.username,
+      stringPassword: req.body.password,
+      email: req.body.email,
+      phone: req.body.phone,
+    };
     if (await user.exists({ email: postData.email })) {
       responseObj.response = "email_exists";
     } else {
@@ -78,6 +82,12 @@ export default async function register(req: Request, res: Response) {
       }
     }
   } catch (error) {
+    console.error(
+      `Error in controller: request/controller/register`,
+      `Request: ${req}`,
+      `Response: ${res}`,
+      `Error: ${error}`
+    );
     responseObj.response = "bad_request";
   }
   res.send(responseObj);

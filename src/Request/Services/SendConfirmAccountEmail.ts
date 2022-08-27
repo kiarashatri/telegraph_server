@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { mailTransporter } from "../../email/mailTransporter";
 
-export default async function SendConfirmAccountEmail(
+export default async function sendConfirmAccountEmail(
   token: Types.ObjectId,
   email: string
 ) {
@@ -14,5 +14,10 @@ export default async function SendConfirmAccountEmail(
         process.env.BASE_URI
       }confirmation/?token=${token.toString()}">Click here to verify account</a>`,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error(
+      `Error in service: request/service/sendConfirmAccountEmail`,
+      `Error: ${error}`
+    );
+  }
 }

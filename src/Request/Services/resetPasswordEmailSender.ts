@@ -18,5 +18,10 @@ export default async function resetPasswordEmailSender(
         process.env.BASE_URI
       }reset_password/?token=${token.toString()}">Click On this link to **RESET PASSWORD**</a>`,
     });
-  } catch (error) {}
+  } catch (error) {
+    console.error(
+      `Error in service: request/service/resetPasswordEmailSender`,
+      `Error: ${error}`
+    );
+  }
 }

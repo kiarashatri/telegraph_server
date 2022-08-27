@@ -1,7 +1,7 @@
 import { createHash } from "crypto";
 import { Types } from "mongoose";
 import user from "../../database/models/user";
-import SendConfirmAccountEmail from "./SendConfirmAccountEmail";
+import sendConfirmAccountEmail from "./sendConfirmAccountEmail";
 
 export default async function insertUserToDb(postData: any) {
   try {
@@ -23,10 +23,14 @@ export default async function insertUserToDb(postData: any) {
 
     await insert.save();
 
-    SendConfirmAccountEmail(email_confirmation_obj_token, postData.email);
+    sendConfirmAccountEmail(email_confirmation_obj_token, postData.email);
 
     return true;
   } catch (error) {
+    console.error(
+      `Error in service: request/service/insertUserToDb`,
+      `Error: ${error}`
+    );
     return false;
   }
 }

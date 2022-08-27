@@ -4,10 +4,11 @@ import resetPasswordEmailSender from "../services/resetPasswordEmailSender";
 import saveToDbResetPassword from "../services/saveToDbResetPassword";
 
 export default async function resetPassword(req: Request, res: Response) {
-  const userEmail = req.body.email;
-  const responseObject = { response: "null" };
-
+  let userEmail: any;
+  let responseObject: any;
   try {
+    userEmail = req.body.email;
+    responseObject = { response: "null" };
     const userExists: any = await user.exists({ email: userEmail });
     if (userExists) {
       responseObject.response = "email_sent";
@@ -17,6 +18,14 @@ export default async function resetPassword(req: Request, res: Response) {
       responseObject.response = "user_not_found";
     }
   } catch (error) {
+    console.error(
+      `Error in controller: request/controller/resetPassword`,
+      `Request: ${req}`,
+      `Response: ${res}`,
+      `Error: ${error}`
+    );
     responseObject.response = "bad_request";
   }
+
+  res.send(responseObject);
 }

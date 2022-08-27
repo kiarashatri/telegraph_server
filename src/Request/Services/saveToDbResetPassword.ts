@@ -8,5 +8,10 @@ export default async function saveToDbResetPassword(userObj: Types.ObjectId) {
     });
     await forgetPasswordObj.save();
     return forgetPasswordObj._id;
-  } catch (error) {}
+  } catch (error) {
+    console.error(
+      `Error in service: request/service/saveToDbResetPassword`,
+      `Error: ${error}`
+    );
+  }
 }

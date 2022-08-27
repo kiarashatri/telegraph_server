@@ -14,10 +14,11 @@ export default async function changePasswordFromToken(
   req: Request,
   res: Response
 ) {
-  const tokenQuery: any = `${req.body.token}`;
-  const newPasswordQuery: any = `${req.body.password}`;
-
+  let tokenQuery: any;
+  let newPasswordQuery: any;
   try {
+    tokenQuery = `${req.body.token}`;
+    newPasswordQuery = `${req.body.password}`;
     const tokenExistsInDb: any = await resetPassword.findOne({
       _id: new Types.ObjectId(tokenQuery),
       resetRequestAt: { $lte: subtractDays(1) },
@@ -30,5 +31,12 @@ export default async function changePasswordFromToken(
       tokenExistsInDb.hashPassword = hashPassword;
       await tokenExistsInDb.save();
     }
-  } catch (error) {}
+  } catch (error) {
+    console.error(
+      `Error in controller: request/controller/changePasswordFromToken`,
+      `Request: ${req}`,
+      `Response: ${res}`,
+      `Error: ${error}`
+    );
+  }
 }
