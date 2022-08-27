@@ -1,9 +1,15 @@
 import mongoose from "mongoose";
+import dotenv from "dotenv";
+dotenv.config();
 
 export default async function DBconnection() {
   try {
-    mongoose.connect("mongodb://localhost:27017/telegraph");
+    const mongodbConn: string = String(process.env.DB_CONNECTION);
+    mongoose.connect(mongodbConn);
   } catch (error) {
-    console.log("error catched");
+    console.log(
+      "Mongodb connection error in: database/connection",
+      `Error: ${error}`
+    );
   }
 }
