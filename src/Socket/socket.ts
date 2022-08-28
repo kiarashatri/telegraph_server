@@ -37,6 +37,7 @@ import togglePublicityStatus from "./listeners/user/publicity/toggle";
 import startRedis from "./services/startRedis";
 import setClientOfflineInRedis from "./services/setClientOfflineInRedis";
 import DBconnection from "../database/connection";
+import { RedisClientType } from "@redis/client";
 
 export default function Sockets(io: Server): void {
   try {

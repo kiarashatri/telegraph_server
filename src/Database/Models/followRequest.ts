@@ -1,15 +1,19 @@
 import { model, Schema, Types } from "mongoose";
+import followRequestSchemaType from "../schema/followRequestSchemaType";
 
 let followRequest: any;
 try {
   // Create Schema
-  const followRequestSchema = new Schema<{}>({
-    applicant: { type: Types.ObjectId, required: true, ref: "user" },
-    request_to: { type: Types.ObjectId, required: true, ref: "user" },
+  const followRequestSchema: Schema = new Schema<followRequestSchemaType>({
+    applicant: { type: Schema.Types.ObjectId, required: true, ref: "user" },
+    request_to: { type: Schema.Types.ObjectId, required: true, ref: "user" },
     requested_at: { type: Date, default: Date.now, required: false },
   });
 
-  followRequest = model("followRequest", followRequestSchema);
+  followRequest = model<followRequestSchemaType>(
+    "followRequest",
+    followRequestSchema
+  );
 } catch (error) {
   console.error(
     "Mongodb model error: database/models/followRequest",

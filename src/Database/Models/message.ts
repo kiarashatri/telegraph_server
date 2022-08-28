@@ -1,12 +1,13 @@
 import { model, Schema, Types } from "mongoose";
+import messageSchemaType from "../schema/messageSchemaType";
 
 let message: any;
 try {
   // Create Schema
-  const messageSchema = new Schema<{}>({
-    from: { type: Types.ObjectId, required: true, ref: "user" },
-    to: { type: Types.ObjectId, required: true, ref: "user" },
-    reply_to: { type: Types.ObjectId, required: false },
+  const messageSchema = new Schema<messageSchemaType>({
+    from: { type: Schema.Types.ObjectId, required: true, ref: "user" },
+    to: { type: Schema.Types.ObjectId, required: true, ref: "user" },
+    reply_to: { type: Schema.Types.ObjectId, required: false },
     context: {
       image: { type: String, required: false },
       text: { type: String, required: false },
@@ -15,7 +16,7 @@ try {
     seen_at: { type: Date, default: null, required: false },
   });
 
-  message = model("message", messageSchema);
+  message = model<messageSchemaType>("message", messageSchema);
 } catch (error) {
   console.error(
     "Mongodb model error: database/models/message",

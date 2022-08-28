@@ -1,9 +1,10 @@
 import { model, Schema, Types } from "mongoose";
+import userSchemaType from "../schema/userSchemaType";
 
 let user: any;
 try {
   // Create Schema
-  const usersSchema = new Schema<{}>({
+  const usersSchema = new Schema<userSchemaType>({
     name: { type: String, required: true },
     family: { type: String, required: false },
     username: { type: String, required: true },
@@ -16,15 +17,15 @@ try {
     register_at: { type: Date, default: null, required: true },
     email_confirmation: { type: Date, default: null, required: false },
     email_confirmation_token: {
-      type: Types.ObjectId,
+      type: Schema.Types.ObjectId,
       default: new Types.ObjectId(),
       required: false,
     },
-    following: [{ id: Types.ObjectId, added_at: Date }],
-    block: [{ id: Types.ObjectId, blocked_at: Date }],
+    following: [{ id: Schema.Types.ObjectId, added_at: Date }],
+    block: [{ id: Schema.Types.ObjectId, blocked_at: Date }],
     setting: { type: Object, required: false },
   });
-  user = model("user", usersSchema);
+  user = model<userSchemaType>("user", usersSchema);
 } catch (error) {
   console.error("Mongodb model error: database/models/user", `Error: ${error}`);
 }
