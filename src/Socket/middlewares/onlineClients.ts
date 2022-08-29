@@ -1,9 +1,13 @@
 import { Socket } from "socket.io";
+import RedisCacheType from "../../types/RedisCacheType";
 
-export default async function onlineClients(socket: Socket, redisCache: any) {
+export default async function onlineClients(
+  socket: Socket,
+  redisCache: RedisCacheType
+): Promise<boolean> {
   try {
     const userId = socket.data.user.user_id || "_failed_list";
-    redisCache.set(userId, "true");
+    await redisCache.set(userId, "true");
     return true;
   } catch (error) {
     console.error(

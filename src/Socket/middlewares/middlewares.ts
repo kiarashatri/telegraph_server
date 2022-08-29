@@ -3,12 +3,21 @@ import { Socket } from "socket.io";
 import authentication from "./authentication";
 import onlineClients from "./onlineClients";
 import joinToRoom from "./joinToRoom";
+import RedisCacheType from "../../types/RedisCacheType";
+import MiddlewareType from "../../types/MiddlewareType";
 
-export default function middlewares(socket: Socket, redisCache: any) {
+export default function middlewares(
+  socket: Socket,
+  redisCache: RedisCacheType
+) {
   try {
-    const middlewares: any[] = [authentication, onlineClients, joinToRoom];
+    const middlewares: Array<MiddlewareType> = [
+      authentication,
+      onlineClients,
+      joinToRoom,
+    ];
 
-    middlewares.every((callBackFunc) => {
+    middlewares.every((callBackFunc: MiddlewareType) => {
       let next = callBackFunc(socket, redisCache);
       if (!next) {
         socket.disconnect();
