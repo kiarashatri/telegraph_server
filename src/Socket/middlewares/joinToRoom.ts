@@ -1,7 +1,11 @@
 import { Socket } from "socket.io";
 import user from "../../database/models/user";
+import RedisCacheType from "../../types/RedisCacheType";
 
-export default async function joinToRoom(socket: Socket, redisCache: any) {
+export default async function joinToRoom(
+  socket: Socket,
+  redisCache: RedisCacheType
+): Promise<boolean> {
   try {
     socket.join(socket.data.user.user_id);
 
