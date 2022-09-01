@@ -55,7 +55,7 @@ export default function Sockets(io: Server): void {
       // Bind Middleware's to webSocket
       middlewares(socket, redisCache);
 
-      socket.on("test", async (args, response) => {
+      socket.on("test", (args, response) => {
         // const u: HydratedDocument<MessageSchemaType> =
         //   (await user.findById(
         //     "63021602091fa84d91c8e9bf"
@@ -64,12 +64,12 @@ export default function Sockets(io: Server): void {
         // u.seen_at = new Date();
         // u.save();
 
-        const u: HydratedDocument<followRequestSchemaType> = new followRequest({
-          applicant: new Types.ObjectId(),
-          request_to: new Types.ObjectId(),
-        });
-        await u.save();
-        response(u);
+        // const u: HydratedDocument<followRequestSchemaType> = new followRequest({
+        //   applicant: new Types.ObjectId(),
+        //   request_to: new Types.ObjectId(),
+        // });
+        // await u.save();
+        response(1);
       });
 
       // // Fire-up Emit's
