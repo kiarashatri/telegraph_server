@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 
-type messageSchemaType = {
+type MessageSchemaType = {
+  _id?: Types.ObjectId;
   from: Types.ObjectId;
   to: Types.ObjectId;
   reply_to?: Types.ObjectId;
@@ -12,4 +13,4 @@ type messageSchemaType = {
   seen_at?: Date;
 };
 
-export default messageSchemaType;
+export default MessageSchemaType;

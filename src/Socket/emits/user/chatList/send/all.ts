@@ -6,12 +6,12 @@ export default async function getAllchatList(socket: Socket) {
   try {
     const sendByUser = (
       await message.find({ from: socket.data.user.ObjectId }).distinct("to")
-    ).map((userObjectId) => {
+    ).map((userObjectId: Types.ObjectId) => {
       return userObjectId.toString();
     });
     const recieveByUser = (
       await message.find({ to: socket.data.user.ObjectId }).distinct("from")
-    ).map((userObjectId) => {
+    ).map((userObjectId: Types.ObjectId) => {
       return userObjectId.toString();
     });
 

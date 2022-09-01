@@ -1,65 +1,51 @@
 import { Types } from "mongoose";
 import user from "../../database/models/user";
-
-function convertToObjectId(
-  userId: Types.ObjectId | string
-): Types.ObjectId | false {
-  if (Types.ObjectId.isValid(userId)) {
-    return new Types.ObjectId(userId);
-  } else {
-    return false;
-  }
-}
+import RelationCheckingType from "../../types/RelationCheckingType";
 
 export default async function relationChecker(
-  checkingUser: Types.ObjectId | string,
-  checkByUser: Types.ObjectId | string
-) {
+  checkingUser: Types.ObjectId,
+  checkByUser: Types.ObjectId
+): Promise<RelationCheckingType | undefined> {
   try {
-    const checkingUserObjectId = convertToObjectId(checkingUser);
-    const checkByUserObjectId = convertToObjectId(checkByUser);
-
-    let isFollowedStatus: boolean;
-    if (
-      await user.exists({
-        _id: checkingUserObjectId,
-        "following.id": checkByUserObjectId,
-      })
-    ) {
-      isFollowedStatus = true;
-    } else {
-      isFollowedStatus = false;
-    }
-
-    let isBlockedStatus: boolean;
-    if (
-      await user.exists({
-        _id: checkingUserObjectId,
-        "block.id": checkByUserObjectId,
-      })
-    ) {
-      isBlockedStatus = true;
-    } else {
-      isBlockedStatus = false;
-    }
-
-    let mutualStatus: boolean;
-    if (
-      await user.exists({
-        _id: checkByUserObjectId,
-        "following.id": checkingUserObjectId,
-      })
-    ) {
-      mutualStatus = true;
-    } else {
-      mutualStatus = false;
-    }
-
-    return {
-      isFollowed: isFollowedStatus,
-      isBlocked: isBlockedStatus,
-      mutual: mutualStatus,
+    const response: RelationCheckingType = {
+      isFollowed: false,
+      isBlocked: false,
+      mutual: false,
     };
+    if (
+      await user.exists({
+        _id: checkingUser,
+        "following.id": checkByUser,
+      })
+    ) {
+      response.isFollowed = true;
+    } else {
+      response.isFollowed = false;
+    }
+
+    if (
+      await user.exists({
+        _id: checkingUser,
+        "block.id": checkByUser,
+      })
+    ) {
+      response.isBlocked = true;
+    } else {
+      response.isBlocked = false;
+    }
+
+    if (
+      await user.exists({
+        _id: checkByUser,
+        "following.id": checkingUser,
+      })
+    ) {
+      response.mutual = true;
+    } else {
+      response.mutual = false;
+    }
+
+    return response;
   } catch (error) {
     console.error("Service error: relationChecker", `Error: ${error}`);
   }

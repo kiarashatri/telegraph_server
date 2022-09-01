@@ -1,9 +1,14 @@
-import { Socket } from "socket.io";
+import { HydratedDocument, LeanDocument, Types } from "mongoose";
 import message from "../../database/models/message";
+import MessageSchemaType from "../../database/schema/MessageSchemaType";
 
-export default async function saveMessageToDb(arg: any) {
+export default async function saveMessageToDb(
+  arg: MessageSchemaType
+): Promise<MessageSchemaType | undefined> {
   try {
-    const data = new message(arg);
+    const data: HydratedDocument<MessageSchemaType> = new message(
+      arg
+    ) as HydratedDocument<MessageSchemaType>;
     await data.save();
     return data.toObject();
   } catch (error) {
