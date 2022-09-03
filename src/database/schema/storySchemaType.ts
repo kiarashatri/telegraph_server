@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 
-type resetPasswordSchemaType = {
+type StorySchemaType = {
+  _id?: Types.ObjectId;
   owner?: Types.ObjectId;
   image: string;
   added_at: Date;
@@ -8,4 +9,4 @@ type resetPasswordSchemaType = {
   removed?: boolean;
 };
 
-export default resetPasswordSchemaType;
+export default StorySchemaType;

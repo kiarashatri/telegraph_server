@@ -5,13 +5,13 @@ import RelationCheckingType from "../../types/RelationCheckingType";
 export default async function relationChecker(
   checkingUser: Types.ObjectId,
   checkByUser: Types.ObjectId
-): Promise<RelationCheckingType | undefined> {
+): Promise<RelationCheckingType> {
+  const response: RelationCheckingType = {
+    isFollowed: false,
+    isBlocked: false,
+    mutual: false,
+  };
   try {
-    const response: RelationCheckingType = {
-      isFollowed: false,
-      isBlocked: false,
-      mutual: false,
-    };
     if (
       await user.exists({
         _id: checkingUser,
@@ -44,9 +44,8 @@ export default async function relationChecker(
     } else {
       response.mutual = false;
     }
-
-    return response;
   } catch (error) {
     console.error("Service error: relationChecker", `Error: ${error}`);
   }
+  return response;
 }

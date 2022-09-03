@@ -1,9 +1,9 @@
 import { Types } from "mongoose";
 
-type followRequestSchemaType = {
+type FollowRequestSchemaType = {
   applicant: Types.ObjectId;
   request_to: Types.ObjectId;
   requested_at?: Date;
 };
 
-export default followRequestSchemaType;
+export default FollowRequestSchemaType;

@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-type tweetSchemaType = {
+type TweetSchemaType = {
   owner: Types.ObjectId;
   likes: Array<Types.ObjectId>;
   comments?: Array<{
@@ -15,4 +15,4 @@ type tweetSchemaType = {
   removed?: boolean;
 };
 
-export default tweetSchemaType;
+export default TweetSchemaType;

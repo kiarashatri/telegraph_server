@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-type userSchemaType = {
+type UserSchemaType = {
   name: string;
   family?: string;
   username: string;
@@ -18,4 +18,4 @@ type userSchemaType = {
   setting?: {};
 };
 
-export default userSchemaType;
+export default UserSchemaType;

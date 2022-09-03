@@ -1,49 +1,46 @@
+import { Types } from "mongoose";
 import { Socket } from "socket.io";
+import MessageSchemaType from "../../../database/schema/MessageSchemaType";
+import newMessageListenerResponse from "../../../types/listener/response/newMessageListenerResponse";
+import RedisCacheType from "../../../types/RedisCacheType";
+import RelationCheckingType from "../../../types/RelationCheckingType";
 import sendMessageToSpecificUser from "../../emits/message/send/to";
 import relationChecker from "../../services/relationChecker";
 import saveMessageToDb from "../../services/saveMessageToDb";
 
-interface dbData {
-  to: string;
-  from?: string;
-  reply_to: string;
-  context: {
-    image: string;
-    text: string;
-  };
-  sent_at?: Date;
-  seen_at?: Date | null;
-  _id: string;
-  __v: number;
-}
-
-export default function newMessage(socket: Socket, redisCache: any): void {
+export default function newMessage(
+  socket: Socket,
+  redisCache: RedisCacheType
+): void {
   try {
-    socket.on("message/new", async (arg: dbData, response) => {
-      const currentUser2TargetUserRelation = await relationChecker(
-        socket.data.user.ObjectId,
-        arg.to
-      );
-      const TargetUser2CurrentUserRelation = await relationChecker(
-        arg.to,
-        socket.data.user.ObjectId
-      );
+    socket.on("message/new", async (arg: MessageSchemaType, response) => {
+      const currentUser2TargetUserRelation: RelationCheckingType =
+        await relationChecker(
+          socket.data.user.ObjectId,
+          new Types.ObjectId(arg.to)
+        );
+      const TargetUser2CurrentUserRelation: RelationCheckingType =
+        await relationChecker(
+          new Types.ObjectId(arg.to),
+          socket.data.user.ObjectId
+        );
 
       if (
         !currentUser2TargetUserRelation.isBlocked &&
         !TargetUser2CurrentUserRelation.isBlocked
       ) {
-        arg.from = socket.data.user.user_id;
+        arg.from = socket.data.user.ObjectId;
         arg.sent_at = new Date();
+        delete arg.seen_at;
         // Type should fix to dbData:
-        const data: any = await saveMessageToDb(arg);
+        const data: MessageSchemaType = await saveMessageToDb(arg);
         delete data.seen_at;
 
         // send message to user if the user in online
         sendMessageToSpecificUser(socket, data, redisCache);
       }
 
-      response({ status: "ok" });
+      response({ status: true } as newMessageListenerResponse);
     });
   } catch (error) {
     console.error(`Listener error: message/new`, error);

@@ -1,8 +1,8 @@
 import { Types } from "mongoose";
 
-type resetPasswordSchemaType = {
+type ResetPasswordSchemaType = {
   user: Types.ObjectId;
   resetRequestAt?: Date;
 };
 
-export default resetPasswordSchemaType;
+export default ResetPasswordSchemaType;
