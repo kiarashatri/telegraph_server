@@ -1,10 +1,10 @@
-import { model, Schema, Types } from "mongoose";
-import resetPasswordSchemaType from "../schema/storySchemaType";
+import { model, Schema } from "mongoose";
+import ResetPasswordSchemaType from "../schema/StorySchemaType";
 
 let story: any;
 try {
   // Create Schema
-  const storySchema = new Schema<resetPasswordSchemaType>({
+  const storySchema = new Schema<ResetPasswordSchemaType>({
     owner: { type: Schema.Types.ObjectId, required: true },
     image: { type: String, required: true },
     added_at: { type: Date, required: true },
@@ -12,7 +12,7 @@ try {
     removed: { type: Boolean, required: false, default: false },
   });
 
-  story = model<resetPasswordSchemaType>("story", storySchema);
+  story = model<ResetPasswordSchemaType>("story", storySchema);
 } catch (error) {
   console.error(
     "Mongodb model error: database/models/story",

@@ -4,7 +4,7 @@ import user from "../../../../database/models/user";
 import dotenv from "dotenv";
 import followingId from "../../../../types/databaseResponse/followingId";
 import { Types } from "mongoose";
-import StorySchemaType from "../../../../database/schema/storySchemaType";
+import StorySchemaType from "../../../../database/schema/StorySchemaType";
 dotenv.config();
 
 function subtractDays(numOfDays: number, date: Date = new Date()): Date {

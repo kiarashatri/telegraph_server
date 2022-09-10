@@ -1,16 +1,16 @@
-import { model, Schema, Types } from "mongoose";
-import followRequestSchemaType from "../schema/followRequestSchemaType";
+import { model, Schema } from "mongoose";
+import FollowRequestSchemaType from "../schema/FollowRequestSchemaType";
 
 let followRequest: any;
 try {
   // Create Schema
-  const followRequestSchema: Schema = new Schema<followRequestSchemaType>({
+  const followRequestSchema: Schema = new Schema<FollowRequestSchemaType>({
     applicant: { type: Schema.Types.ObjectId, required: true, ref: "user" },
     request_to: { type: Schema.Types.ObjectId, required: true, ref: "user" },
     requested_at: { type: Date, default: Date.now, required: false },
   });
 
-  followRequest = model<followRequestSchemaType>(
+  followRequest = model<FollowRequestSchemaType>(
     "followRequest",
     followRequestSchema
   );

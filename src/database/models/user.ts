@@ -1,10 +1,10 @@
 import { model, Schema, Types } from "mongoose";
-import userSchemaType from "../schema/userSchemaType";
+import UserSchemaType from "../schema/userSchemaType";
 
 let user: any;
 try {
   // Create Schema
-  const usersSchema = new Schema<userSchemaType>({
+  const usersSchema = new Schema<UserSchemaType>({
     name: { type: String, required: true },
     family: { type: String, required: false },
     username: { type: String, required: true },
@@ -25,7 +25,7 @@ try {
     block: [{ id: Schema.Types.ObjectId, blocked_at: Date }],
     setting: { type: Object, required: false },
   });
-  user = model<userSchemaType>("user", usersSchema);
+  user = model<UserSchemaType>("user", usersSchema);
 } catch (error) {
   console.error("Mongodb model error: database/models/user", `Error: ${error}`);
 }

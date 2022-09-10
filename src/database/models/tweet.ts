@@ -1,11 +1,11 @@
 import { model, Schema } from "mongoose";
-import tweetSchemaType from "../schema/tweetSchemaType";
+import TweetSchemaType from "../schema/tweetSchemaType";
 
 let tweet: any;
 
 try {
   // Create Schema
-  const tweetSchema = new Schema<tweetSchemaType>({
+  const tweetSchema = new Schema<TweetSchemaType>({
     owner: { type: Schema.Types.ObjectId, required: true },
     likes: [{ type: Schema.Types.ObjectId }],
     comments: [
@@ -25,7 +25,7 @@ try {
     removed: { type: Boolean, default: false, required: false },
   });
 
-  const tweet = model<tweetSchemaType>("tweet", tweetSchema);
+  const tweet = model<TweetSchemaType>("tweet", tweetSchema);
 } catch (error) {
   console.error(
     "Mongodb model error: database/models/tweet",

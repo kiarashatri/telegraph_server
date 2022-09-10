@@ -40,7 +40,7 @@ import DBconnection from "../database/connection";
 import user from "../database/models/user";
 import followRequest from "../database/models/followRequest";
 import { HydratedDocument, Types } from "mongoose";
-import followRequestSchemaType from "../database/schema/followRequestSchemaType";
+import followRequestSchemaType from "../database/schema/FollowRequestSchemaType";
 import MessageSchemaType from "../database/schema/MessageSchemaType";
 
 export default function Sockets(io: Server): void {

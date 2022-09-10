@@ -1,16 +1,16 @@
-import { model, Schema, Types } from "mongoose";
-import resetPasswordSchemaType from "../schema/resetPasswordSchemaType";
+import { model, Schema } from "mongoose";
+import ResetPasswordSchemaType from "../schema/ResetPasswordSchemaType";
 
 let resetPassword: any;
 
 try {
   // Create Schema
-  const resetPasswordSchema = new Schema<resetPasswordSchemaType>({
+  const resetPasswordSchema = new Schema<ResetPasswordSchemaType>({
     user: { type: Schema.Types.ObjectId, required: true, ref: "user" },
     resetRequestAt: { type: Date, default: Date.now, required: false },
   });
 
-  resetPassword = model<resetPasswordSchemaType>(
+  resetPassword = model<ResetPasswordSchemaType>(
     "reestPassword",
     resetPasswordSchema
   );
