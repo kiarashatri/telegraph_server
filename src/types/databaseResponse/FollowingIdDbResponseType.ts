@@ -1,8 +1,8 @@
 import { Types } from "mongoose";
 
-type followingId = {
+type FollowingIdDbResponseType = {
   _id: Types.ObjectId;
   following: Array<{ id: Types.ObjectId }>;
 };
 
-export default followingId;
+export default FollowingIdDbResponseType;

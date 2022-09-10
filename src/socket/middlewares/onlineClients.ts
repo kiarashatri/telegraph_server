@@ -6,7 +6,7 @@ export default async function onlineClients(
   redisCache: RedisCacheType
 ): Promise<boolean> {
   try {
-    const userId = socket.data.user.user_id || "_failed_list";
+    const userId: string = socket.data.user.user_id || "failed_list";
     await redisCache.set(userId, "true");
     return true;
   } catch (error) {

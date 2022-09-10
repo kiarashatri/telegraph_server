@@ -7,6 +7,7 @@ export default async function sendMessageToSpecificUser(
   data: MessageSchemaType,
   redisCache: RedisCacheType
 ): Promise<void> {
+  //check if user is online, send directly.
   if (await redisCache.exists(data.to)) {
     socket.to(data.to.toString()).emit("message/send/to", data);
   }

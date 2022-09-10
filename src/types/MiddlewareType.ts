@@ -3,7 +3,7 @@ import RedisCacheType from "./RedisCacheType";
 
 type MiddlewareType = (
   socket: Socket,
-  redisCache: RedisCacheType
+  redisCache?: RedisCacheType
 ) => Promise<boolean>;
 
 export default MiddlewareType;

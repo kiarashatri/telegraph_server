@@ -2,6 +2,10 @@ import { Socket } from "socket.io";
 import user from "../../../../database/models/user";
 import tweet from "../../../../database/models/tweet";
 import dotenv from "dotenv";
+import FollowingIdDbResponseType from "../../../../types/databaseResponse/FollowingIdDbResponseType";
+import TweetResultsByPagination from "../../../../types/databaseResponse/TweetByPaginationDbResponseType";
+import { HydratedDocument, Types } from "mongoose";
+import TweetEmitType from "../../../../types/emit/TweetEmitType";
 dotenv.config();
 
 export default async function sendAllTweetByPagination(
@@ -9,40 +13,48 @@ export default async function sendAllTweetByPagination(
   pageNumber: number = 1
 ) {
   try {
-    const userFollowingList: any = await user
+    const userFollowingList: FollowingIdDbResponseType = await user
       .findById(socket.data.user.ObjectId)
       .select("following.id");
 
-    const returnTweetEveryTime = Number(process.env.RETURN_TWEET_EVERY_PAGE);
+    const returnTweetEveryTime =
+      Number(process.env.RETURN_TWEET_EVERY_PAGE) | 20;
     let skipBaseOnPagination = 0;
     if (pageNumber > 1) {
       skipBaseOnPagination = (pageNumber - 1) * returnTweetEveryTime;
     }
 
-    const tweetResults: any = await tweet
-      .find({ owner: { $in: userFollowingList }, removed: false })
-      .select("_id owner context sent_at likes comments.id")
-      .limit(returnTweetEveryTime)
-      .skip(skipBaseOnPagination);
+    const tweetResults: Array<HydratedDocument<TweetResultsByPagination>> =
+      await tweet
+        .find({ owner: { $in: userFollowingList }, removed: false })
+        .select("_id owner context sent_at likes comments.id")
+        .limit(returnTweetEveryTime)
+        .skip(skipBaseOnPagination);
 
-    let responseObject: any = [];
+    let responseObject: Array<TweetEmitType> = [];
 
-    function check(arr: any) {
-      if (arr.indexOf(socket.data.user.ObjectId) === -1) {
+    const check = (arr: Array<string>): boolean => {
+      if (arr.indexOf(socket.data.user.user_id) === -1) {
         return false;
       } else {
         return true;
       }
-    }
+    };
 
-    tweetResults.forEach((singleTweet: any) => {
-      responseObject.push({
-        ...singleTweet,
-        comments: singleTweet.comments.length,
-        likes: singleTweet.likes.length,
-        userLiked: check(singleTweet.likes),
-      });
-    });
+    tweetResults.forEach(
+      (singleTweet: HydratedDocument<TweetResultsByPagination>) => {
+        responseObject.push({
+          ...singleTweet.toObject(),
+          comments: singleTweet.comments.length,
+          likes: singleTweet.likes.length,
+          userLiked: check(
+            singleTweet.likes.map((element: Types.ObjectId) => {
+              return element.toString();
+            })
+          ),
+        });
+      }
+    );
 
     if (tweetResults.length !== 0) {
       socket.emit("tweet/send/byPagination", responseObject);

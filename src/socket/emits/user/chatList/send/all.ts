@@ -1,24 +1,26 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
 import message from "../../../../../database/models/message";
+import MessageDbResponseType from "../../../../../types/databaseResponse/MessageDbResponseType";
 
 export default async function getAllchatList(socket: Socket) {
   try {
-    const sendByUser = (
+    const sendByUser: Array<string> = (
       await message.find({ from: socket.data.user.ObjectId }).distinct("to")
-    ).map((userObjectId: Types.ObjectId) => {
-      return userObjectId.toString();
+    ).map((userObject: MessageDbResponseType): string => {
+      return userObject._id.toString();
     });
-    const recieveByUser = (
+    const recieveByUser: Array<string> = (
       await message.find({ to: socket.data.user.ObjectId }).distinct("from")
-    ).map((userObjectId: Types.ObjectId) => {
-      return userObjectId.toString();
+    ).map((userObject: MessageDbResponseType): string => {
+      return userObject.toString();
     });
 
-    socket.emit(
-      "user/chatList/send/all",
-      new Set<string>([...sendByUser, ...recieveByUser])
-    );
+    const emitResponse = [
+      ...new Set<string>([...sendByUser, ...recieveByUser]),
+    ];
+
+    socket.emit("user/chatList/send/all", emitResponse);
   } catch (error) {
     console.error(
       "Emit error: user/chatList/send/all",

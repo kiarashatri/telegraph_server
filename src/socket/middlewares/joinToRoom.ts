@@ -1,19 +1,17 @@
+import { Types } from "mongoose";
 import { Socket } from "socket.io";
 import user from "../../database/models/user";
-import RedisCacheType from "../../types/RedisCacheType";
+import FollowingIdDbResponseType from "../../types/databaseResponse/FollowingIdDbResponseType";
 
-export default async function joinToRoom(
-  socket: Socket,
-  redisCache: RedisCacheType
-): Promise<boolean> {
+export default async function joinToRoom(socket: Socket): Promise<boolean> {
   try {
     socket.join(socket.data.user.user_id);
 
-    const followingId: any = await user
+    const followingId: FollowingIdDbResponseType = await user
       .findById(socket.data.user.ObjectId)
       .select("following.id");
 
-    followingId.following.forEach((element: any) => {
+    followingId.following.forEach((element: { id: Types.ObjectId }) => {
       socket.join(`followed-${element.id.toString()}`);
     });
 
