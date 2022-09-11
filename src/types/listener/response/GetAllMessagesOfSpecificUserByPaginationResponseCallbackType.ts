@@ -1,7 +1,7 @@
-import MessageSchemaType from "../../../database/schema/MessageSchemaType";
+import MessageDbResponseType from "../../databaseResponse/MessageDbResponseType";
 
 type getAllMessagesOfSpecificUserByPaginationResponseType = (
-  dbResponse: Array<MessageSchemaType>
+  dbResponse: Array<MessageDbResponseType>
 ) => {};
 
 export default getAllMessagesOfSpecificUserByPaginationResponseType;

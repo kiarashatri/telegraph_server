@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 
 type TweetSchemaType = {
+  _id?: Types.ObjectId;
   owner: Types.ObjectId;
   likes: Array<Types.ObjectId>;
   comments?: Array<{

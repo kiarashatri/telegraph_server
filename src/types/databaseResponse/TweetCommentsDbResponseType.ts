@@ -1,13 +1,9 @@
 import { Types } from "mongoose";
+import TweetCommentType from "../TweetCommentType";
 
-type TweetCommentsResponseData = {
-  comments: Array<{
-    _id: Types.ObjectId;
-    owner: Types.ObjectId;
-    context: String;
-    reply_to?: Types.ObjectId;
-    sent_at: Date;
-  }>;
+type TweetCommentsDbResponseData = {
+  _id: Types.ObjectId;
+  comments: Array<TweetCommentType>;
 };
 
-export default TweetCommentsResponseData;
+export default TweetCommentsDbResponseData;

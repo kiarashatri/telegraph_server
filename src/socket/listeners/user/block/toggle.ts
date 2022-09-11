@@ -1,62 +1,70 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
 import user from "../../../../database/models/user";
+import UserBlockArrayDbResponseType from "../../../../types/databaseResponse/UserBlockArrayDbResponseType";
+import UserFollowingArrayDbResponseType from "../../../../types/databaseResponse/UserFollowingArrayDbResponseType";
+import ToggleUserBlockResponseCallbackType from "../../../../types/listener/response/toggleUserBlockResponseCallbackType";
+import relationChecker from "../../../services/relationChecker";
 
 export default function toggleUserBlock(socket: Socket) {
   try {
-    socket.on("user/block/toggle", async (userId, response) => {
-      const userIdObject = new Types.ObjectId(userId);
-      if (
-        await user.exists({
-          _id: userIdObject,
-        })
-      ) {
+    socket.on(
+      "user/block/toggle",
+      async (
+        userId: string | Types.ObjectId,
+        response: ToggleUserBlockResponseCallbackType
+      ) => {
+        userId = new Types.ObjectId(userId);
         if (
           await user.exists({
-            _id: socket.data.user.ObjectId,
-            "block.id": userIdObject,
+            _id: userId,
           })
         ) {
-          const blockedArray: any = await user
-            .findById(socket.data.user.ObjectId)
-            .select("block");
+          const currentUserRelationChecking = await relationChecker(
+            socket.data.user.ObjectId,
+            userId
+          );
 
-          const newBlockArray = blockedArray.block.filter((element: any) => {
-            return element.id !== new Types.ObjectId(userIdObject);
-          });
-
-          await user.findByIdAndUpdate(socket.data.user.ObjectId, {
-            $set: { block: newBlockArray },
-          });
-        } else {
-          await user.findByIdAndUpdate(socket.data.user.ObjectId, {
-            $push: { block: { id: userIdObject, blocked_at: new Date() } },
-          });
-
-          if (
-            await user.exists({
-              _id: socket.data.user.ObjectId,
-              "following.id": userIdObject,
-            })
-          ) {
-            const followingArray: any = await user
+          if (currentUserRelationChecking.isBlocked) {
+            const blockedArray: UserBlockArrayDbResponseType = await user
               .findById(socket.data.user.ObjectId)
-              .select("following");
+              .select("block");
 
-            const newFollowingArray = followingArray.block.filter(
-              (element: any) => {
-                return element.id !== new Types.ObjectId(userIdObject);
+            const newBlockArray = blockedArray.block.filter(
+              (element: { id: Types.ObjectId; blocked_at: Date }) => {
+                return element.id !== new Types.ObjectId(userId);
               }
             );
 
             await user.findByIdAndUpdate(socket.data.user.ObjectId, {
-              $set: { following: newFollowingArray },
+              $set: { block: newBlockArray },
             });
+          } else {
+            await user.findByIdAndUpdate(socket.data.user.ObjectId, {
+              $push: { block: { id: userId, blocked_at: new Date() } },
+            });
+
+            if (currentUserRelationChecking.isFollowed) {
+              const followingArray: UserFollowingArrayDbResponseType =
+                await user
+                  .findById(socket.data.user.ObjectId)
+                  .select("following");
+
+              const newFollowingArray = followingArray.following.filter(
+                (element: { id: Types.ObjectId; added_at: Date }) => {
+                  return element.id !== new Types.ObjectId(userId);
+                }
+              );
+
+              await user.findByIdAndUpdate(socket.data.user.ObjectId, {
+                $set: { following: newFollowingArray },
+              });
+            }
           }
         }
+        response({ status: true });
       }
-      response({ status: "done" });
-    });
+    );
   } catch (error) {
     console.error(`Listener error: user/block/toggle`, error);
   }

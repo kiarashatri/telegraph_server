@@ -1,8 +1,11 @@
-import getStoryPhotoListenerResponse from "../../databaseResponse/getStoryPhotoResponseData";
+type GetStoryPhotoResponseCallback = (
+  args: GetStoryPhotoResponseCallbackArgs
+) => {};
 
-type getStoryPhotoResponseCallback = (args: {
+export type GetStoryPhotoResponseCallbackArgs = {
   storyId: string;
-  base64Photo: getStoryPhotoListenerResponse;
-}) => {};
+  base64Photo?: string;
+  status: boolean;
+};
 
-export default getStoryPhotoResponseCallback;
+export default GetStoryPhotoResponseCallback;

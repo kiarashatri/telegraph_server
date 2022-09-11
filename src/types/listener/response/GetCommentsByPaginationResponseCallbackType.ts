@@ -1,7 +1,7 @@
-import TweetCommentsResponseData from "../../databaseResponse/TweetCommentsResponseData";
+import TweetCommentsDbResponseData from "../../databaseResponse/TweetCommentsDbResponseType";
 
 type GetCommentsByPaginationCallbackResponse = (
-  arg: TweetCommentsResponseData
+  arg: TweetCommentsDbResponseData
 ) => {};
 
 export default GetCommentsByPaginationCallbackResponse;

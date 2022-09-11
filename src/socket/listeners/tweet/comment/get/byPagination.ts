@@ -1,35 +1,40 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
 import tweet from "../../../../../database/models/tweet";
-import user from "../../../../../database/models/user";
+import TweetCommentsDbResponseData from "../../../../../types/databaseResponse/TweetCommentsDbResponseType";
+import TweetOwnerDbResponseType from "../../../../../types/databaseResponse/TweetOwnerDbResponseType";
+import GetCommentsByPaginationCallbackResponse from "../../../../../types/listener/response/GetCommentsByPaginationResponseCallbackType";
+import relationChecker from "../../../../services/relationChecker";
 
 export default function getCommentsByPagination(socket: Socket) {
   try {
     socket.on(
       "tweet/comment/get/byPagination",
-      async (tweetId, skipPage, response) => {
-        const tweetOwner: any = await tweet
+      async (
+        tweetId: string | Types.ObjectId,
+        skipPage: number,
+        response: GetCommentsByPaginationCallbackResponse
+      ) => {
+        const tweetOwner: TweetOwnerDbResponseType = await tweet
           .findOne({ _id: new Types.ObjectId(tweetId) })
           .select("owner");
 
-        await user.exists(
-          { _id: socket.data.user.ObjectId, "following.id": tweetOwner.owner },
-          async (error, DbResponse) => {
-            if (DbResponse !== null) {
-              let skipNumber = 0;
-              if (skipPage > 1) {
-                skipNumber = (skipPage - 1) * 20;
-              }
-              const tweetComments: any = await tweet
-                .findOne({ _id: new Types.ObjectId(tweetId) })
-                .select("comments")
-                .limit(20)
-                .skip(skipNumber);
-
-              response(tweetComments);
-            }
+        if (
+          (await relationChecker(socket.data.user.ObjectId, tweetOwner.owner))
+            .isFollowed
+        ) {
+          let skipNumber = 0;
+          if (skipPage > 1) {
+            skipNumber = (skipPage - 1) * 20;
           }
-        );
+          const tweetComments: TweetCommentsDbResponseData = await tweet
+            .findOne({ _id: new Types.ObjectId(tweetId) })
+            .select("comments")
+            .limit(20)
+            .skip(skipNumber);
+
+          response(tweetComments);
+        }
       }
     );
   } catch (error) {

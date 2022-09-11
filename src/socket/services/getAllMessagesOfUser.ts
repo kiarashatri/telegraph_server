@@ -1,14 +1,14 @@
 import { HydratedDocument, Types } from "mongoose";
 import message from "../../database/models/message";
 import dotenv from "dotenv";
-import MessageSchemaType from "../../database/schema/MessageSchemaType";
+import MessageDbResponseType from "../../types/databaseResponse/MessageDbResponseType";
 dotenv.config();
 
 export default async function getAllMessagesOfUser(
   fromUser: Types.ObjectId,
   toUser: Types.ObjectId,
   page: number
-): Promise<Array<MessageSchemaType> | undefined> {
+): Promise<Array<MessageDbResponseType>> {
   try {
     const skipNumber: number =
       page === 1
@@ -22,8 +22,9 @@ export default async function getAllMessagesOfUser(
       })
       .sort("sent_at")
       .skip(skipNumber)
-      .limit(25)) as Array<MessageSchemaType>;
+      .limit(25)) as Array<MessageDbResponseType>;
   } catch (error) {
     console.error("Service error: getAllMessagesOfUser", `Error: ${error}`);
+    return [];
   }
 }

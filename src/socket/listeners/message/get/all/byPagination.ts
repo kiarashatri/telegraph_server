@@ -1,5 +1,6 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
+import getAllMessagesOfSpecificUserByPaginationResponseType from "../../../../../types/listener/response/GetAllMessagesOfSpecificUserByPaginationResponseCallbackType";
 import getAllMessagesOfUser from "../../../../services/getAllMessagesOfUser";
 
 export default function getAllMessagesOfSpecificUserByPagination(
@@ -8,9 +9,17 @@ export default function getAllMessagesOfSpecificUserByPagination(
   try {
     socket.on(
       "message/get/all/byPagination",
-      async (userId: string | Types.ObjectId, page: number = 1, response) => {
+      async (
+        userId: string | Types.ObjectId,
+        page: number = 1,
+        response: getAllMessagesOfSpecificUserByPaginationResponseType
+      ) => {
         response(
-          await getAllMessagesOfUser(userId, socket.data.user.ObjectId, page)
+          await getAllMessagesOfUser(
+            new Types.ObjectId(userId),
+            socket.data.user.ObjectId,
+            page
+          )
         );
       }
     );

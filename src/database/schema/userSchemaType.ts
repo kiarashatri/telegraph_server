@@ -1,6 +1,7 @@
 import { Types } from "mongoose";
 
 type UserSchemaType = {
+  _id?: Types.ObjectId;
   name: string;
   family?: string;
   username: string;

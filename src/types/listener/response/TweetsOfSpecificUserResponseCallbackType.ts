@@ -1,7 +1,17 @@
-import TweetsOfSpecificUserDataType from "../../TweetsOfSpecificUserDataType";
+import { Types } from "mongoose";
 
-type TweetCallbackResponseType = (
-  args: Array<TweetsOfSpecificUserDataType>
+type TweetsOfSpecificUserResponseCallbackType = (
+  args: Array<TweetsOfSpecificUserResponseCallbackArgsType>
 ) => {};
 
-export default TweetCallbackResponseType;
+export type TweetsOfSpecificUserResponseCallbackArgsType = {
+  _id: Types.ObjectId;
+  owner: Types.ObjectId;
+  likes: number;
+  userLiked: boolean;
+  comments: number;
+  context: string;
+  sent_at: Date;
+};
+
+export default TweetsOfSpecificUserResponseCallbackType;
