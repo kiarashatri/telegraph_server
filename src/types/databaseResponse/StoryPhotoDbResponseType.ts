@@ -1,6 +1,6 @@
-type StoryPhotoResponse = {
+type StoryPhotoResponseType = {
   _id: string;
   image: string;
 };
 
-export default StoryPhotoResponse;
+export default StoryPhotoResponseType;

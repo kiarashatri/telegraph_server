@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-type getUserProfileResponseCallbackType = (args: {
+type GetUserProfileResponseCallbackType = (args: {
   _id: Types.ObjectId;
   name: string;
   family?: string;
@@ -10,4 +10,4 @@ type getUserProfileResponseCallbackType = (args: {
   last_seen: Date;
 }) => {};
 
-export default getUserProfileResponseCallbackType;
+export default GetUserProfileResponseCallbackType;

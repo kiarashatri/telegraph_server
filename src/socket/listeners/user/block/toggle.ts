@@ -3,7 +3,7 @@ import { Socket } from "socket.io";
 import user from "../../../../database/models/user";
 import UserBlockArrayDbResponseType from "../../../../types/databaseResponse/UserBlockArrayDbResponseType";
 import UserFollowingArrayDbResponseType from "../../../../types/databaseResponse/UserFollowingArrayDbResponseType";
-import ToggleUserBlockResponseCallbackType from "../../../../types/listener/response/toggleUserBlockResponseCallbackType";
+import ToggleUserBlockResponseCallbackType from "../../../../types/listener/response/ToggleUserBlockResponseCallbackType";
 import relationChecker from "../../../services/relationChecker";
 
 export default function toggleUserBlock(socket: Socket) {

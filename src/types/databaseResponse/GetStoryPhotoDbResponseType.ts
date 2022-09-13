@@ -1,6 +1,6 @@
-import StoryPhotoResponse from "./StoryPhotoResponse";
+import StoryPhotoResponseType from "./StoryPhotoDbResponseType";
 
-type getStoryPhotoListenerResponse = StoryPhotoResponse & {
+type getStoryPhotoListenerResponse = StoryPhotoResponseType & {
   status: boolean;
 };
 

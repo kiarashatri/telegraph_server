@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
 import user from "../../../../database/models/user";
-import getUserProfileResponseCallbackType from "../../../../types/listener/response/getUserProfileResponseCallbackType";
+import GetUserProfileResponseCallbackType from "../../../../types/listener/response/GetUserProfileResponseCallbackType";
 import relationChecker from "../../../services/relationChecker";
 
 export default function getUserProfile(socket: Socket): void {
@@ -10,7 +10,7 @@ export default function getUserProfile(socket: Socket): void {
       "user/profile/get",
       async (
         userId: string | Types.ObjectId,
-        response: getUserProfileResponseCallbackType
+        response: GetUserProfileResponseCallbackType
       ) =>
         response({
           ...(await user

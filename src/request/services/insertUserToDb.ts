@@ -1,7 +1,7 @@
 import { createHash } from "crypto";
 import { HydratedDocument, Types } from "mongoose";
 import user from "../../database/models/user";
-import UserSchemaType from "../../database/schema/userSchemaType";
+import UserSchemaType from "../../database/schema/UserSchemaType";
 import NewUserInputType from "../../types/NewUserInputType";
 import sendConfirmAccountEmail from "./sendConfirmAccountEmail";
 

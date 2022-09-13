@@ -1,5 +1,5 @@
-type toggleFollowRequestResponseCallbackType = (args: {
+type ToggleFollowRequestResponseCallbackType = (args: {
   status: boolean;
 }) => {};
 
-export default toggleFollowRequestResponseCallbackType;
+export default ToggleFollowRequestResponseCallbackType;

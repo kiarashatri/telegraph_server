@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import { Socket } from "socket.io";
 import followRequest from "../../../../../database/models/followRequest";
-import toggleFollowRequestResponseCallbackType from "../../../../../types/listener/response/toggleFollowRequestResponseCallbackType";
+import ToggleFollowRequestResponseCallbackType from "../../../../../types/listener/response/ToggleFollowRequestResponseCallbackType";
 import relationChecker from "../../../../services/relationChecker";
 
 export default function toggleFollowRequest(socket: Socket) {
@@ -11,7 +11,7 @@ export default function toggleFollowRequest(socket: Socket) {
       async (
         userId: Types.ObjectId | string,
         insert: boolean = true,
-        response: toggleFollowRequestResponseCallbackType
+        response: ToggleFollowRequestResponseCallbackType
       ) => {
         userId = new Types.ObjectId(userId);
         if (
