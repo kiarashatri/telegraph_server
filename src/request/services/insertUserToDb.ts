@@ -1,12 +1,15 @@
 import { createHash } from "crypto";
-import { Types } from "mongoose";
+import { HydratedDocument, Types } from "mongoose";
 import user from "../../database/models/user";
+import UserSchemaType from "../../database/schema/userSchemaType";
+import NewUserInputType from "../../types/NewUserInputType";
 import sendConfirmAccountEmail from "./sendConfirmAccountEmail";
 
-export default async function insertUserToDb(postData: any) {
+export default async function insertUserToDb(
+  postData: NewUserInputType
+): Promise<boolean> {
   try {
-    const email_confirmation_obj_token = new Types.ObjectId();
-    const insert = new user({
+    const insert: HydratedDocument<UserSchemaType> = new user({
       name: postData.name,
       family: postData.family,
       username: postData.username,
@@ -18,12 +21,15 @@ export default async function insertUserToDb(postData: any) {
       last_seen: new Date(),
       register_at: new Date(),
       email_confirmation: null,
-      email_confirmation_token: email_confirmation_obj_token,
+      email_confirmation_token: new Types.ObjectId(),
     });
 
     await insert.save();
 
-    sendConfirmAccountEmail(email_confirmation_obj_token, postData.email);
+    sendConfirmAccountEmail(
+      new Types.ObjectId(insert.email_confirmation_token),
+      postData.email
+    );
 
     return true;
   } catch (error) {

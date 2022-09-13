@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import user from "../../database/models/user";
+import RegisterResponseType from "../../types/controllerResponse/RegisterResponseType";
+import NewUserInputType from "../../types/NewUserInputType";
 import insertUserToDb from "../services/insertUserToDb";
 
-function validateInputs(postData: any) {
-  const emailRegex =
+function validateInputs(postData: NewUserInputType): boolean {
+  const emailRegex: RegExp =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
   try {
@@ -27,19 +29,13 @@ function validateInputs(postData: any) {
       return false;
     }
 
-    if (
-      typeof postData.name != "number" ||
-      postData.name.length < 7 ||
-      postData.name.length > 12
-    ) {
+    const nameLengthAndTypeCondition: boolean =
+      postData.name.length < 7 || postData.name.length > 12;
+    if (nameLengthAndTypeCondition || typeof postData.name != "number") {
       return false;
     }
 
-    if (
-      typeof postData.name != "string" ||
-      postData.name.length < 7 ||
-      postData.name.length > 12
-    ) {
+    if (nameLengthAndTypeCondition || typeof postData.name != "string") {
       return false;
     }
   } catch (error) {
@@ -53,19 +49,22 @@ function validateInputs(postData: any) {
   return true;
 }
 
-export default async function register(req: Request, res: Response) {
-  const responseObj = {
+export default async function register(
+  req: Request,
+  res: Response<RegisterResponseType>
+): Promise<void> {
+  const responseObj: RegisterResponseType = {
     response: "",
   };
 
   try {
-    const postData = {
+    const postData: NewUserInputType = {
       name: req.body.name,
       family: req.body.family,
       username: req.body.username,
-      stringPassword: req.body.password,
+      password: req.body.password,
       email: req.body.email,
-      phone: req.body.phone,
+      phone: Number(req.body.phone),
     };
     if (await user.exists({ email: postData.email })) {
       responseObj.response = "email_exists";

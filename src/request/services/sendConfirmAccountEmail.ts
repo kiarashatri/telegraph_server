@@ -4,7 +4,7 @@ import { mailTransporter } from "../../email/mailTransporter";
 export default async function sendConfirmAccountEmail(
   token: Types.ObjectId,
   email: string
-) {
+): Promise<void> {
   try {
     await mailTransporter.sendMail({
       from: process.env.MAIL_NAME,

@@ -12,7 +12,7 @@ type UserSchemaType = {
   biography?: string;
   last_seen: Date;
   register_at: Date;
-  email_confirmation?: Date;
+  email_confirmation?: Date | null;
   email_confirmation_token?: Types.ObjectId;
   following?: Array<{ id: Types.ObjectId; added_at: Date }>;
   block?: Array<{ id: Types.ObjectId; blocked_at: Date }>;

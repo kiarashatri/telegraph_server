@@ -1,5 +1,5 @@
 import { model, Schema, Types } from "mongoose";
-import UserSchemaType from "../schema/userSchemaType";
+import UserSchemaType from "../schema/UserSchemaType";
 
 let user: any;
 try {

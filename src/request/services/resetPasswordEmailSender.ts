@@ -2,14 +2,17 @@ import { Types } from "mongoose";
 import user from "../../database/models/user";
 import { mailTransporter } from "../../email/mailTransporter";
 import dotenv from "dotenv";
+import GetUserEmailDbResponseType from "../../types/databaseResponse/GetUserEmailDbResponseType";
 dotenv.config();
 
 export default async function resetPasswordEmailSender(
   userObj: Types.ObjectId,
   token: Types.ObjectId
-) {
+): Promise<void> {
   try {
-    const userObjFromDb: any = await user.findById(userObj).select("email");
+    const userObjFromDb: GetUserEmailDbResponseType = await user
+      .findById(userObj)
+      .select("email");
     await mailTransporter.sendMail({
       from: process.env.MAIL_NAME,
       to: userObjFromDb.email,

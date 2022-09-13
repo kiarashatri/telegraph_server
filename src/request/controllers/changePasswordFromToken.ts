@@ -3,8 +3,10 @@ import { Request, Response } from "express";
 import { Types } from "mongoose";
 import resetPassword from "../../database/models/resetPassword";
 import user from "../../database/models/user";
+import ResetPasswordSchemaType from "../../database/schema/ResetPasswordSchemaType";
+import ChangePasswordFromTokenResponseType from "../../types/controllerResponse/ChangePasswordFromTokenResponseType";
 
-function subtractDays(numOfDays: any, date: Date = new Date()) {
+function subtractDays(numOfDays: number, date: Date = new Date()) {
   date.setDate(date.getDate() - numOfDays);
 
   return date;
@@ -12,26 +14,33 @@ function subtractDays(numOfDays: any, date: Date = new Date()) {
 
 export default async function changePasswordFromToken(
   req: Request,
-  res: Response
-) {
-  let tokenQuery: any;
-  let newPasswordQuery: any;
+  res: Response<ChangePasswordFromTokenResponseType>
+): Promise<void> {
   try {
-    tokenQuery = `${req.body.token}`;
-    newPasswordQuery = `${req.body.password}`;
-    const tokenExistsInDb: any = await resetPassword.findOne({
-      _id: new Types.ObjectId(tokenQuery),
-      resetRequestAt: { $lte: subtractDays(1) },
-    });
+    const tokenQuery: Types.ObjectId = new Types.ObjectId(req.body.token);
+    const newPasswordQuery: string = String(req.body.password);
 
-    if (tokenExistsInDb != null) {
+    const tokenExistsInDb: ResetPasswordSchemaType =
+      await resetPassword.findOne({
+        _id: tokenQuery,
+        resetRequestAt: { $lte: subtractDays(1) },
+      });
+
+    if (tokenExistsInDb !== null) {
       const hashPassword = createHash("sha256")
         .update(newPasswordQuery)
         .digest("base64");
-      tokenExistsInDb.hashPassword = hashPassword;
-      await tokenExistsInDb.save();
+
+      await user.findOneAndUpdate(
+        { _id: tokenQuery },
+        { $set: { hashPassword: hashPassword } }
+      );
+      res.send(true);
+    } else {
+      res.send(false);
     }
   } catch (error) {
+    res.send(false);
     console.error(
       `Error in controller: request/controller/changePasswordFromToken`,
       `Request: ${req}`,

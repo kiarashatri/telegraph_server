@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import TweetSchemaType from "../schema/tweetSchemaType";
+import TweetSchemaType from "../schema/TweetSchemaType";
 
 let tweet: any;
 

@@ -1,9 +1,13 @@
 import { Request, Response } from "express";
 import { Types } from "mongoose";
 import user from "../../database/models/user";
+import ConfirmEmailResponseType from "../../types/controllerResponse/ConfirmEmailResponseType";
 
-export default async function confirmEmail(req: Request, res: Response) {
-  const responseObj = { status: false };
+export default async function confirmEmail(
+  req: Request,
+  res: Response<ConfirmEmailResponseType>
+): Promise<void> {
+  const responseObj: ConfirmEmailResponseType = { status: false };
   try {
     const token: Types.ObjectId = new Types.ObjectId(req.body.token);
     await user.findOneAndUpdate(

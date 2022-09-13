@@ -2,7 +2,6 @@ import { Socket } from "socket.io";
 import { JwtPayload, verify } from "jsonwebtoken";
 import { Types } from "mongoose";
 import dotenv from "dotenv";
-import JsonWebTokenObjectType from "../../types/JsonWebTokenObjectType";
 
 dotenv.config();
 
@@ -11,7 +10,7 @@ export default async function authentication(socket: Socket): Promise<boolean> {
     socket.data.user = verify(
       socket.handshake.auth.accessToken,
       process.env.JWT_SECRET_TOKEN || "JWT_SECRET_TOKEN"
-    ) as JsonWebTokenObjectType;
+    ) as JwtPayload;
 
     socket.data.user.ObjectId = new Types.ObjectId(socket.data.user.user_id);
     return true;
