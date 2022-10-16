@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { verify } from "jsonwebtoken";
+import { sign, verify } from "jsonwebtoken";
 import dotenv from "dotenv";
 import VerifyTokenResponseType from "../../types/controllerResponse/VerifyTokenResponseType";
 dotenv.config();
@@ -12,10 +12,12 @@ export default async function verifyToken(
     const JWT_ACCESS_TOKEN: string =
       process.env.JWT_SECRET_TOKEN || "JWT_SECRET_TOKEN";
     const bodyAccessToken: string = req.body.ACCESS_TOKEN || "null";
-    verify(bodyAccessToken, JWT_ACCESS_TOKEN);
-    res.status(200).send({
-      verify: true,
-    });
+    try {
+      verify(bodyAccessToken, JWT_ACCESS_TOKEN);
+      res.status(200).send({ verify: true });
+    } catch (error) {
+      res.status(200).send({ verify: false });
+    }
   } catch (error) {
     console.error(
       `Error in controller: request/controller/login`,
@@ -23,8 +25,6 @@ export default async function verifyToken(
       `Response: ${res}`,
       `Error: ${error}`
     );
-    res.send({
-      verify: false,
-    });
+    res.status(500).send({ verify: false });
   }
 }

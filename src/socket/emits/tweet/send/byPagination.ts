@@ -13,20 +13,28 @@ export default async function sendAllTweetByPagination(
   pageNumber: number = 1
 ) {
   try {
-    const userFollowingList: FollowingIdDbResponseType = await user
+    const userFollowingDbResponse: FollowingIdDbResponseType = await user
       .findById(socket.data.user.ObjectId)
       .select("following.id");
 
     const returnTweetEveryTime =
       Number(process.env.RETURN_TWEET_EVERY_PAGE) | 20;
     let skipBaseOnPagination = 0;
+
     if (pageNumber > 1) {
       skipBaseOnPagination = (pageNumber - 1) * returnTweetEveryTime;
     }
 
+    const userIdFollowingList: Array<Types.ObjectId> =
+      userFollowingDbResponse.following.map(
+        (element: { id: Types.ObjectId }) => {
+          return element.id;
+        }
+      );
+
     const tweetResults: Array<HydratedDocument<TweetResultsByPagination>> =
       await tweet
-        .find({ owner: { $in: userFollowingList }, removed: false })
+        .find({ owner: { $in: userIdFollowingList }, removed: false })
         .select("_id owner context sent_at likes comments.id")
         .limit(returnTweetEveryTime)
         .skip(skipBaseOnPagination);
@@ -66,5 +74,6 @@ export default async function sendAllTweetByPagination(
       `Socket-id: ${socket.id}`,
       `Error: ${error}`
     );
+    console.error("000000000000000000");
   }
 }

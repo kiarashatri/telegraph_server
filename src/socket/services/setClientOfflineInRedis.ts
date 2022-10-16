@@ -6,7 +6,9 @@ export default function setClientOfflineInRedis(
   redisCache: RedisCacheType
 ): void {
   try {
-    redisCache.del(socket.data.user.user_id);
+    if (socket.data.user.user_id !== undefined) {
+      redisCache.del(socket.data.user.user_id);
+    }
   } catch (error) {
     console.error("Service error: setClientOfflineInRedis", `Error: ${error}`);
   }

@@ -1,8 +1,8 @@
-import UserLoginDataDbResponseType from "../databaseResponse/UserLoginDataDbResponseType";
-
-type LoginResponseType = UserLoginDataDbResponseType & {
-  authenticated: string;
-  accecc_token?: string;
+type LoginResponseType = {
+  authenticated: boolean;
+  emailConfirmation?: boolean;
+  userId?: string;
+  acceccToken?: string;
 };
 
 export default LoginResponseType;

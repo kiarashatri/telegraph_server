@@ -7,11 +7,14 @@ dotenv.config();
 
 export default async function authentication(socket: Socket): Promise<boolean> {
   try {
-    socket.data.user = verify(
-      socket.handshake.auth.accessToken,
-      process.env.JWT_SECRET_TOKEN || "JWT_SECRET_TOKEN"
-    ) as JwtPayload;
-
+    try {
+      socket.data.user = verify(
+        socket.handshake.auth.accessToken,
+        process.env.JWT_SECRET_TOKEN || "JWT_SECRET_TOKEN"
+      );
+    } catch (error) {
+      return false;
+    }
     socket.data.user.ObjectId = new Types.ObjectId(socket.data.user.user_id);
     return true;
   } catch (error) {

@@ -17,12 +17,20 @@ export default function middlewares(
       joinToRoom,
     ];
 
-    middlewares.every((callBackFunc: MiddlewareType) => {
-      let next = callBackFunc(socket, redisCache);
-      if (!next) {
-        socket.disconnect();
+    authentication(socket).then((authenticationResponse: boolean) => {
+      socket.data.middleware = authenticationResponse;
+      if (authenticationResponse) {
+        onlineClients(socket, redisCache).then(
+          (onlineClientsResponse: boolean) => {
+            socket.data.middleware = onlineClientsResponse;
+            if (onlineClientsResponse) {
+              joinToRoom(socket).then((joinToRoomResponse: boolean) => {
+                socket.data.middleware = joinToRoomResponse;
+              });
+            }
+          }
+        );
       }
-      return next;
     });
   } catch (error) {
     console.error(

@@ -25,7 +25,7 @@ try {
     removed: { type: Boolean, default: false, required: false },
   });
 
-  const tweet = model<TweetSchemaType>("tweet", tweetSchema);
+  tweet = model<TweetSchemaType>("tweet", tweetSchema);
 } catch (error) {
   console.error(
     "Mongodb model error: database/models/tweet",

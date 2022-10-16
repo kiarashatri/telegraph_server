@@ -37,8 +37,8 @@ import togglePublicityStatus from "./listeners/user/publicity/toggle";
 import startRedis from "./services/startRedis";
 import setClientOfflineInRedis from "./services/setClientOfflineInRedis";
 import DBconnection from "../database/connection";
-import { Types } from "mongoose";
 import user from "../database/models/user";
+import { createHash } from "crypto";
 
 export default function Sockets(io: Server): void {
   try {
@@ -52,78 +52,90 @@ export default function Sockets(io: Server): void {
       // Bind Middleware's to webSocket
       middlewares(socket, redisCache);
 
-      socket.on("tst", async (args, response) => {
-        const a = await user.exists({
-          _id: new Types.ObjectId("63021602091fa84d91c8e9bf"),
-        });
-        // if (a === null) {
-        //   response("null");
-        // } else {
-        //   response("exis");
-        // }
-        response(a);
-      });
+      // socket.on("test", async (args, res) => {
+      //   const userDbResponse = await user.exists({
+      //     username: "123",
+      //     hashPassword: "reqPassword",
+      //   });
 
-      // // Fire-up Emit's
-      // // To: user/chatList/send/all
-      // getAllchatList(socket);
-      // // To: message/unread/send/all
-      // allUnreadMsgFromServer(socket);
-      // // To: story/send/all
-      // sendAllFollowingStorysInfo(socket);
-      // // To: tweet/send/byPagination
-      // sendAllTweetByPagination(socket);
+      //   const userData: any = await user
+      //     .findOne({ username: "reqUsername", hashPassword: "reqPassword" })
+      //     .select(
+      //       "name family username email phone photo biography email_confirmation"
+      //     );
 
-      // // Fire-up listener's =>
-      // // On: message/get/all/byPagination
-      // getAllMessagesOfSpecificUserByPagination(socket);
-      // // On: message/new
-      // newMessage(socket, redisCache);
-      // // On: story/new
-      // addNewStory(socket);
-      // // On: story/delete
-      // deleteStory(socket);
-      // // On: story/photo/get
-      // getStoryPhoto(socket);
-      // // On: tweet/add
-      // addNewTweet(socket);
-      // // On: tweet/delete
-      // deleteTweet(socket);
-      // // On: tweet/get/byPagination
-      // getTweetsOfAnUserByPagination(socket);
-      // // On: tweet/comment/add
-      // addCommentToTweet(socket);
-      // // On: tweet/comment/delete
-      // deleteTweetComment(socket);
-      // // On: tweet/comment/get/byPagination
-      // getCommentsByPagination(socket);
-      // // On: tweet/like/toggle
-      // toggleTweetLike(socket);
-      // // On: user/block/toggle
-      // toggleUserBlock(socket);
-      // // On: user/block/get/all
-      // getAllBlockList(socket);
-      // // On: user/follower/get/all
-      // getAllFollower(socket);
-      // // On: user/following/get/all
-      // getAllFollowing(socket);
-      // // On: user/following/request/get/all
-      // getAllFollowingRequest(socket);
-      // // On: user/follow/request/toggle
-      // toggleFollowRequest(socket);
-      // // On: user/lastSeen/get/array
-      // getLastSeenFromArray(socket, redisCache);
-      // // On: user/profile/get
-      // getUserProfile(socket);
-      // // On: user/publicity/get
-      // getUserPublicityStatus(socket);
-      // // On: user/publicity/toggle
-      // togglePublicityStatus(socket);
+      //   console.log(args);
+      //   res(userData);
+      // });
+
+      // const aa = createHash("sha256").update("password").digest("base64");
+      // console.log(aa);
+
+      setTimeout(() => {
+        if (socket.data.middleware) {
+          socket.on("disconnect", () => {
+            setClientOfflineInRedis(socket, redisCache);
+          });
+
+          // Fire-up Emit's
+          // To: user/chatList/send/all
+          getAllchatList(socket);
+          // To: message/unread/send/all
+          allUnreadMsgFromServer(socket);
+          // To: story/send/all
+          sendAllFollowingStorysInfo(socket);
+          // To: tweet/send/byPagination
+          sendAllTweetByPagination(socket);
+        }
+      }, Number(process.env.MIDDLEWARE_TIMEOUT));
+
+      // Fire-up listener's =>
+      // On: message/get/all/byPagination
+      getAllMessagesOfSpecificUserByPagination(socket);
+      // On: message/new
+      newMessage(socket, redisCache);
+      // On: story/new
+      addNewStory(socket);
+      // On: story/delete
+      deleteStory(socket);
+      // On: story/photo/get
+      getStoryPhoto(socket);
+      // On: tweet/add
+      addNewTweet(socket);
+      // On: tweet/delete
+      deleteTweet(socket);
+      // On: tweet/get/byPagination
+      getTweetsOfAnUserByPagination(socket);
+      // On: tweet/comment/add
+      addCommentToTweet(socket);
+      // On: tweet/comment/delete
+      deleteTweetComment(socket);
+      // On: tweet/comment/get/byPagination
+      getCommentsByPagination(socket);
+      // On: tweet/like/toggle
+      toggleTweetLike(socket);
+      // On: user/block/toggle
+      toggleUserBlock(socket);
+      // On: user/block/get/all
+      getAllBlockList(socket);
+      // On: user/follower/get/all
+      getAllFollower(socket);
+      // On: user/following/get/all
+      getAllFollowing(socket);
+      // On: user/following/request/get/all
+      getAllFollowingRequest(socket);
+      // On: user/follow/request/toggle
+      toggleFollowRequest(socket);
+      // On: user/lastSeen/get/array
+      getLastSeenFromArray(socket, redisCache);
+      // On: user/profile/get
+      getUserProfile(socket);
+      // On: user/publicity/get
+      getUserPublicityStatus(socket);
+      // On: user/publicity/toggle
+      togglePublicityStatus(socket);
 
       // User leave socket Listener
-      socket.on("disconnect", () => {
-        // setClientOfflineInRedis(socket, redisCache);
-      });
     });
   } catch (error) {
     console.error(
